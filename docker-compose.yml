@@ -1,0 +1,32 @@
+services:
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.backend
+        container_name: django_backend_clothes_closet
+        depends_on:
+            - db
+        environment:
+            - DJANGO_SETTINGS_MODULE=app.settings
+            - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+
+    # frontend:
+    #     build:
+    #         context: ./frontend
+    #         dockerfile: Dockerfile.frontend
+    #     container_name: react_frontend_clothes_closet
+    #     depends_on:
+    #         - backend
+
+    db:
+        image: postgres:15-alpine
+        container_name: postgres_db_clothes_closet
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+            - POSTGRES_DB=clothes-closet-db
+
+volumes:
+    postgres_data:

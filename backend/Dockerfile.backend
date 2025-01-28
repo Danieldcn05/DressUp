@@ -1,0 +1,26 @@
+# Dockerfile en backend/Dockerfile
+FROM python:3.12-slim
+
+# Establece el directorio de trabajo dentro del contenedor
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copia el archivo de dependencias
+COPY requirements.txt /app/
+
+# Instala las dependencias
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia todo el código del backend
+COPY ./app/ /app/
+
+# Expone el puerto para Django
+EXPOSE 8000
+
+# Comando para iniciar la aplicación
+CMD ["gunicorn", "--reload", "--bind", "0.0.0.0:8000", "app.wsgi:application"]
