@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaUser } from "react-icons/fa";
 import { FaCalendar } from "react-icons/fa";
+import { GoHeartFill } from "react-icons/go";
 
 export const Home = () => {
   return (
@@ -14,7 +15,8 @@ export const Home = () => {
         </header>
         <section>
             <div className='buscador'>
-
+              <input type='text' placeholder='Buscar...'/>
+              <GoHeartFill/>
             </div>
             <div className='filtro'>
 
