@@ -7,20 +7,24 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('outfit', '0002_remove_outfit_garments_remove_outfit_tags_and_more'),
-        ('user', '0001_initial'),
-        ('outfit_planner', '0001_initial'),
+        ("outfit", "0002_remove_outfit_garments_remove_outfit_tags_and_more"),
+        ("user", "0001_initial"),
+        ("outfit_planner", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='outfit_planner',
-            name='outfit',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='outfit.outfit'),
+            model_name="outfit_planner",
+            name="outfit",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="outfit.outfit"
+            ),
         ),
         migrations.AlterField(
-            model_name='outfit_planner',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='user.user'),
+            model_name="outfit_planner",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="user.user"
+            ),
         ),
     ]

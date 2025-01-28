@@ -18,13 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("user.urls")),
-    # path("clothes/", include("clothes.urls")),
+    path("clothes/", include("clothes.urls")),
     path("tags/", include("tags.urls")),
-    # path("outfit/", include("outfit.urls")),
-    # path("outfit_planner/", include("outfit_planner.urls")),
+    path("outfit/", include("outfit.urls")),
+    path("outfit_planner/", include("outfit_planner.urls")),
+    path("auth/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
