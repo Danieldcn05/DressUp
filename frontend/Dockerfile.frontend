@@ -2,7 +2,7 @@
 FROM node:18 as build
 
 # Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+WORKDIR /dress-up
 
 # Copia el archivo package.json y package-lock.json (o yarn.lock si usas Yarn)
 COPY package*.json ./
