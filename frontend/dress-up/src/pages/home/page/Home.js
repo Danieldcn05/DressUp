@@ -1,22 +1,27 @@
 import React from 'react'
-import { FaUser } from "react-icons/fa";
-import { FaCalendar } from "react-icons/fa";
-import { GoHeartFill } from "react-icons/go";
+import { FaUser } from "react-icons/fa"
+import { FaCalendar } from "react-icons/fa"
+import { GoHeartFill } from "react-icons/go"
+import './Home.css'
 
 export const Home = () => {
   return (
     <div className='home'>
         <header>
-            <FaUser/>
+          <div className='user'>
+            <FaUser className='userIcon'/>
             <h1>Carmen</h1>
-            <FaCalendar/>
+            <FaCalendar className='calendarIcon'/>
+          </div>
+          <div className='info'>
             <p>185 prendas</p>
             <p>23 Outfits</p>
+          </div>
         </header>
         <section>
-            <div className='buscador'>
+            <div className='search'>
               <input type='text' placeholder='Buscar...'/>
-              <GoHeartFill/>
+              <GoHeartFill className='heartIcon'/>
             </div>
             <div className='filtro'>
 
