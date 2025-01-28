@@ -7,17 +7,16 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Outfit_planner',
+            name="Outfit_planner",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('user', models.IntegerField()),
-                ('date', models.DateField()),
-                ('outfit', models.IntegerField()),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("user", models.IntegerField()),
+                ("date", models.DateField()),
+                ("outfit", models.IntegerField()),
             ],
         ),
     ]

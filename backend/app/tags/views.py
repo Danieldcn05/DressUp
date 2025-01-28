@@ -32,6 +32,7 @@ class TagsDetail(idUserFilterMixin, generics.RetrieveUpdateDestroyAPIView):
 class CreateTagView(generics.CreateAPIView):
     queryset = Tags.objects.all()
     serializer_class = TagsSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save()
@@ -46,6 +47,7 @@ class CreateTagView(generics.CreateAPIView):
 class DeleteTagView(generics.DestroyAPIView):
     queryset = Tags.objects.all()
     serializer_class = TagsSerializer
+    permission_classes = [IsAuthenticated]
     lookup_field = "pk"
 
     def get_object(self):

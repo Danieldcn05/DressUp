@@ -15,19 +15,21 @@ class RegisterUser(generics.CreateAPIView):
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
-        serializer.save()
-        token = RefreshToken.for_user(serializer.instance)
+        user = serializer.save()
+        token = RefreshToken.for_user(user)
 
         return Response(
             {
                 "response": "User created successfully",
+                "refresh": str(token),
+                "access": str(token.access_token),
             },
             status=status.HTTP_201_CREATED,
         )
 
 
 class UserList(idUserFilterMixin, generics.ListCreateAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -47,9 +49,20 @@ class UserDetail(idUserFilterMixin, generics.RetrieveUpdateDestroyAPIView):
 
 
 class UserDetailMe(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
+
+
+class DeleteUser(generics.DestroyAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = "pk"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset
