@@ -31,7 +31,15 @@ header{
     justify-content: space-between;
     margin-left: 20%;
     margin-right: 20%;
-    margin-top: 3%;
+    margin-top: 2%;
+}
+.info p{
+    transition: all 200ms;
+}
+.info .selected,
+.info p:hover{
+    border-bottom: 2px solid var(--dark-red);
+    font-weight: bold;
 }
 
 section{
@@ -57,4 +65,38 @@ section{
     color: var(--dark-red);
 }
 
+.filtro{
+    display: flex;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 40px;
+    justify-content: space-around;
+}
+
+.filtro .filtroIcon,
+.filtro .flechaIcon{
+    font-size: 40px;
+    transition: all 300ms;
+}
+.filtro .filtroIcon:hover{
+    color: var(--dark-red);
+    transform: scale(1.1, 1.1);
+}
+.filtro .flechaIcon:hover{
+    color: grey;
+    transform: scale(1.1, 1.1);
+}
+
+.add{
+    display: flex;
+    justify-content: flex-end;
+    width: 70%;
+    margin: 0 auto;
+}
+.addIcon{
+    font-size: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 20px;
+}
 
