@@ -11,12 +11,12 @@ services:
             - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
 
     frontend:
-         build:
-             context: ./frontend
-             dockerfile: Dockerfile.frontend
-         container_name: react_frontend_clothes_closet
-         depends_on:
-             - backend
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.frontend
+        container_name: react_frontend_clothes_closet
+        depends_on:
+            - backend
 
     db:
         image: postgres:15-alpine
