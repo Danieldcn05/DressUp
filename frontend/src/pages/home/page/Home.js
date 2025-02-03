@@ -12,13 +12,15 @@ import { RiHandbagFill } from "react-icons/ri";
 import { IoAddOutline } from "react-icons/io5";
 import { ClotheCard } from '../clotheCard/ClotheCard';
 import { OutfitCard } from '../outfitCard/OutfitCard';
+import { NavLink } from 'react-router-dom'
 import './Home.css'
-
-
+import '../../modal/Modal.css';
+import { Modal } from '../../modal/Modal';
+import { GuardarEnStorage } from '../utils/guardarEnStorage';
 
 export const Home = () => {
 
-  const allClothes = 
+  const initialClothes = JSON.parse(localStorage.getItem("clothes")) || 
   [
     { 'id': 1, 'nombre': 'Prenda 1', 'tag': 'T-shirt' },
     { 'id': 2, 'nombre': 'Prenda 2', 'tag': 'Shoe' },
@@ -27,20 +29,30 @@ export const Home = () => {
     { 'id': 5, 'nombre': 'Prenda 5', 'tag': 'Pant' }
   ];
 
-  const [clothes, setClothes] = useState(allClothes);
+  const [clothes, setClothes] = useState(initialClothes);
   const [showClothes, setShowClothes] = useState(true);
   const [selectedTag, setSelectedTag] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const addClothe = (newClothe) => {
+    setClothes(prevClothes => {
+      const lastId = prevClothes.length > 0 ? prevClothes[prevClothes.length - 1].id : 0;
+      const updatedClothe = { ...newClothe, id: lastId + 1 };
+      GuardarEnStorage("clothes", updatedClothe);
+      return [...prevClothes, updatedClothe];
+    });
+  };
 
   const filtrarPrendas = (tag) => {
     if (selectedTag === tag) {
-      setClothes(allClothes);
-      setSelectedTag(null);
+      setClothes(initialClothes); 
+      setSelectedTag(null); 
     } else {
-      const prendas_filtradas = allClothes.filter(clothe => clothe.tag === tag);
-      setClothes(prendas_filtradas);
-      setSelectedTag(tag);
+      const prendas_filtradas = initialClothes.filter(clothe => clothe.tag === tag);
+      setClothes(prendas_filtradas); 
+      setSelectedTag(tag); 
     }
-  }
+ }
 
   return (
     <div className='home'>
@@ -48,7 +60,7 @@ export const Home = () => {
           <div className='user'>
             <FaUser className='userIcon'/>
             <h1>Carmen</h1>
-            <FaCalendar className='calendarIcon'/>
+            <NavLink to="/calendar"><FaCalendar className='calendarIcon'/></NavLink>
           </div>
           <div className='info'>
             <p className={showClothes ? 'selected' : ''} onClick={() => setShowClothes(true)}>185 prendas</p>
@@ -74,7 +86,11 @@ export const Home = () => {
             }
         </section>
         <div className='add'>
-          <IoAddOutline className='addIcon'/>
+          {!showClothes 
+            ? <NavLink to="/newoutfit"><IoAddOutline className='addIcon'/></NavLink> 
+            : <IoAddOutline className='addIcon' onClick={() => setIsModalOpen(true)}/>
+          }
+          {isModalOpen && (<Modal setIsModalOpen={setIsModalOpen} addClothe={addClothe}/>)}
         </div>
     </div>
   )

@@ -1,0 +1,82 @@
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+  }
+  
+  .dropzone {
+    border: 2px dashed var(--dark-red);
+    padding: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 8px;
+  }
+  
+  .dropzone:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .drop-text {
+    color: var(--dark-red);
+    font-weight: bold;
+  }
+  
+  .file-list {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .add-btn,
+  .close-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .tags{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .tags .divTags ul{
+    width: 80%;
+    margin: 0 auto;
+    list-style: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .tags .divTags .tag{
+    padding: 5px;
+    margin: 3px;
+  }
+  .tags .divTags .tag input[type="checkbox"]:checked + label{
+    color: var(--dark-red); /* Cambia el color del texto al seleccionar */
+    font-weight: bold;
+  }
+
+  
+  
