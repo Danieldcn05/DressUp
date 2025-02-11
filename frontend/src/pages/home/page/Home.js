@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaUser } from "react-icons/fa"
 import { FaCalendar } from "react-icons/fa"
 import { GoHeartFill } from "react-icons/go"
@@ -20,6 +20,7 @@ import { GuardarEnStorage } from '../utils/guardarEnStorage';
 
 export const Home = () => {
 
+  /*
   const initialClothes = JSON.parse(localStorage.getItem("clothes")) || 
   [
     { 'id': 1, 'nombre': 'Prenda 1', 'tag': 'T-shirt' },
@@ -28,12 +29,41 @@ export const Home = () => {
     { 'id': 4, 'nombre': 'Prenda 4', 'tag': 'Hat' },
     { 'id': 5, 'nombre': 'Prenda 5', 'tag': 'Pant' }
   ];
+  */
 
-  const [clothes, setClothes] = useState(initialClothes);
+  const [clothes, setClothes] = useState();
   const [showClothes, setShowClothes] = useState(true);
   const [selectedTag, setSelectedTag] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  
+    
+    const fetchClothes = async () => {
+    try {
+      const response = await fetch("https://localhost:8000/clothes/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al obtener las prendas");
+      }
+
+      const data = await response.json();
+      setClothes(data); 
+
+    } catch (error) {
+      console.error("Error al obtener las prendas:", error);
+    }
+    };
+
+    useEffect(() => {
+    fetchClothes();
+    }, []);
+    
+  
   const addClothe = (newClothe) => {
     setClothes(prevClothes => {
       const lastId = prevClothes.length > 0 ? prevClothes[prevClothes.length - 1].id : 0;
@@ -82,7 +112,7 @@ export const Home = () => {
               <FaArrowRight className='flechaIcon'/>
             </div>
             {showClothes 
-            ? <ClotheCard clothes={clothes}/> : <OutfitCard/>
+            ? <ClotheCard clothes={clothes} setClothes={setClothes}/> : <OutfitCard/>
             }
         </section>
         <div className='add'>

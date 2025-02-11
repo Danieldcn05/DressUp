@@ -22,6 +22,7 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  /*
   const handleAddClothe = () => {
     if (files.length > 0) {
       const newClothe = {
@@ -32,6 +33,38 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
       setIsModalOpen(false);
     }
   };
+  */
+
+  
+  const handleAddClothe = async () => {
+    if (files.length > 0) {
+      const formData = new FormData();
+      formData.append("name", files[0].name); 
+      formData.append("img", files[0]); 
+      selectedTags.forEach(tag => formData.append("tags", tag)); 
+  
+      try {
+        const response = await fetch("https://localhost:8000/clothes/create/", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+          },
+          body: formData, 
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          addClothe(data); 
+          setIsModalOpen(false); 
+        } else {
+          console.error("Error al subir la prenda:", await response.text());
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+      }
+    }
+  };
+  
 
   return (
     <div className="modal-overlay">
