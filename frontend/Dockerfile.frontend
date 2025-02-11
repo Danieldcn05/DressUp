@@ -2,7 +2,7 @@
 FROM node:18-slim
 
 # Establece el directorio de trabajo dentro del contenedor
-WORKDIR /frontend
+WORKDIR /app
 
 # Copia el archivo package.json y package-lock.json (o yarn.lock si usas Yarn)
 COPY package*.json ./

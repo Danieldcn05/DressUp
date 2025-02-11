@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .models import User
+from .models import CustomUser
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -11,7 +11,7 @@ from .mixins import idUserFilterMixin
 
 
 class RegisterUser(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
@@ -30,17 +30,17 @@ class RegisterUser(generics.CreateAPIView):
 
 class UserList(idUserFilterMixin, generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return self.filter_by_id_user(queryset)
+        return queryset
 
 
 class UserDetail(idUserFilterMixin, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
     def get_queryset(self):
@@ -50,7 +50,7 @@ class UserDetail(idUserFilterMixin, generics.RetrieveUpdateDestroyAPIView):
 
 class UserDetailMe(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
     def get_object(self):
@@ -58,8 +58,8 @@ class UserDetailMe(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DeleteUser(generics.DestroyAPIView):
-    # permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     lookup_field = "pk"
 

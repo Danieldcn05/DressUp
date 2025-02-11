@@ -64,7 +64,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-AUTH_USER_MODEL = "user.User"
+AUTH_USER_MODEL = "user.CustomUser"
 
 from datetime import timedelta
 
