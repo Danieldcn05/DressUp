@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from 'react-dropzone';
-import './Modal.css'
+import './Modal.css';
+import { fetcher } from '../fetcher/fetcher';
 
 export const Modal = ({ setIsModalOpen, addClothe }) => {
   
@@ -22,36 +23,16 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  /*
-  const handleAddClothe = () => {
-    if (files.length > 0) {
-      const newClothe = {
-        nombre: files[0].name,
-        tag: selectedTags
-      };
-      addClothe(newClothe);
-      setIsModalOpen(false);
-    }
-  };
-  */
-
-  
   const handleAddClothe = async () => {
-    if (files.length > 0) {
+    if (files.length > 0 && selectedTags.length > 0) {
       const formData = new FormData();
       formData.append("name", files[0].name); 
       formData.append("img", files[0]); 
       selectedTags.forEach(tag => formData.append("tags", tag)); 
   
       try {
-        const response = await fetch("https://localhost:8000/clothes/create/", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, 
-          },
-          body: formData, 
-        });
-  
+        const response = await fetcher("clothes/create/", "POST", formData);
+
         if (response.ok) {
           const data = await response.json();
           addClothe(data); 
@@ -62,9 +43,10 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
       } catch (error) {
         console.error("Error en la solicitud:", error);
       }
+    } else {
+      console.error("Debe seleccionar al menos un archivo y una etiqueta.");
     }
   };
-  
 
   return (
     <div className="modal-overlay">
@@ -86,55 +68,55 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
         <div className="tags">
           <h3>Tags</h3>
           <div className="divTags">
-          <ul>
-            <li className="tag">
-                <input 
-                  type="checkbox" 
-                  value="T-shirt" 
-                  onChange={handleTagChange} 
-                  id="tshirt-checkbox"
-                />
-                <label htmlFor="tshirt-checkbox">T-Shirt</label>
-            </li>
-            <li className="tag">
-                <input 
-                  type="checkbox" 
-                  value="Pant" 
-                  onChange={handleTagChange} 
-                  id="pant-checkbox"
-                />
-                <label htmlFor="pant-checkbox">Pant</label>
-            </li>
-            <li className="tag">
-                <input 
-                  type="checkbox" 
-                  value="Shoe" 
-                  onChange={handleTagChange} 
-                  id="shoe-checkbox"
-                />
-                <label htmlFor="shoe-checkbox">Shoe</label>
-            </li>
-            <li className="tag">
-                <input 
-                  type="checkbox" 
-                  value="Hat" 
-                  onChange={handleTagChange} 
-                  id="hat-checkbox"
-                />
-                <label htmlFor="hat-checkbox">Hat</label>
-            </li>
-            <li className="tag">
-              <div>
-                <input 
-                  type="checkbox" 
-                  value="Bag" 
-                  onChange={handleTagChange} 
-                  id="bag-checkbox"
-                />
-                <label htmlFor="bag-checkbox">Bag</label>
-              </div>
-            </li>
-          </ul>
+            <ul>
+              <li className="tag">
+                  <input 
+                    type="checkbox" 
+                    value="T-shirt" 
+                    onChange={handleTagChange} 
+                    id="tshirt-checkbox"
+                  />
+                  <label htmlFor="tshirt-checkbox">T-Shirt</label>
+              </li>
+              <li className="tag">
+                  <input 
+                    type="checkbox" 
+                    value="Pant" 
+                    onChange={handleTagChange} 
+                    id="pant-checkbox"
+                  />
+                  <label htmlFor="pant-checkbox">Pant</label>
+              </li>
+              <li className="tag">
+                  <input 
+                    type="checkbox" 
+                    value="Shoe" 
+                    onChange={handleTagChange} 
+                    id="shoe-checkbox"
+                  />
+                  <label htmlFor="shoe-checkbox">Shoe</label>
+              </li>
+              <li className="tag">
+                  <input 
+                    type="checkbox" 
+                    value="Hat" 
+                    onChange={handleTagChange} 
+                    id="hat-checkbox"
+                  />
+                  <label htmlFor="hat-checkbox">Hat</label>
+              </li>
+              <li className="tag">
+                <div>
+                  <input 
+                    type="checkbox" 
+                    value="Bag" 
+                    onChange={handleTagChange} 
+                    id="bag-checkbox"
+                  />
+                  <label htmlFor="bag-checkbox">Bag</label>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
         <button className="close-btn" onClick={() => setIsModalOpen(false)}>Cerrar</button>

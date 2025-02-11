@@ -1,19 +1,15 @@
 import React from 'react';
 import './ClotheCard.css';
+import { fetcher } from '../../fetcher/fetcher.js';
 
 export const ClotheCard = ({ clothes, setClothes }) => {
 
   const RemoveClothe = async (id) => {
     try {
-      const response = await fetch(`https://localhost:8000/clothes/delete/${id}/`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, 
-        },
-      });
+      const response = await fetcher(`clothes/delete/${id}/`, "DELETE");
 
       if (response.ok) {
-        setClothes(prevClothes => prevClothes.filter(clothe => clothe.id !== id)); 
+        setClothes(prevClothes => prevClothes.filter(clothe => clothe.id !== id));
       } else {
         console.error("Error al eliminar la prenda:", await response.text());
       }

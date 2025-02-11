@@ -1,4 +1,4 @@
-const fetcher = (finalUrl, method, body) => {
+export const fetcher = (finalUrl, method, body) => {
     const url = `http://localhost:8000/${finalUrl}`;
     const authToken = localStorage.getItem("authToken");
 
@@ -12,3 +12,4 @@ const fetcher = (finalUrl, method, body) => {
     });
     return response;
 };
+
