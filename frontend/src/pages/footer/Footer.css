@@ -1,0 +1,14 @@
+
+.footer{
+    position: relative; 
+    display: table;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 170px;
+    height: 15vh;
+    background-color: var(--grey);
+    color:#3b3b3b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
