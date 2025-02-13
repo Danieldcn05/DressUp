@@ -1,14 +1,13 @@
 
-.footer{
-    position: relative; 
-    display: table;
-    width: 70%;
-    margin: 0 auto;
-    margin-top: 170px;
+.footer {
+    position:fixed;
+    left:0px;
+    bottom:0px;
     height: 15vh;
+    width:100%;
+    margin: 0 auto;
     background-color: var(--grey);
-    color:#3b3b3b;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+ }

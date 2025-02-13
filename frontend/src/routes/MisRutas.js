@@ -5,6 +5,7 @@ import { NewOutfit } from '../pages/outfit/NewOutfit'
 import { Home } from '../pages/home/page/Home'
 import { Error } from '../core/pagesCore/Error'
 import { Footer } from '../pages/footer/Footer'
+import { Login } from '../pages/login/Login'
 
 export const MisRutas = () => {
   return (
@@ -16,6 +17,7 @@ export const MisRutas = () => {
               <Route path='/home' element={<Home/>}/>
               <Route path='/calendar' element={<Calendar/>}/>
               <Route path='/newoutfit' element={<NewOutfit/>}/>
+              <Route path='/login' element={<Login/>}/>
               <Route path='*' element={<Error/>}/>
           </Routes>
         </section>  
