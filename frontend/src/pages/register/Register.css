@@ -1,42 +1,44 @@
-/* Login.css */
+/* Register.css */
 
-/* Contenedor principal del Login */
-.login-container {
-    width: 25%;
+/* Contenedor principal del Register */
+.register-container {
+    width: 35%;
     margin: 0 auto;
-    margin-top: 120px;
+    margin-top: 90px;
     background-color: #f8f8f8;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  /* Títulos dentro del Login */
-  .login-container .login-title {
+  /* Títulos dentro del Register */
+  .register-container .register-title {
     font-size: 24px;
     font-weight: bold;
     color: #ff3b3f;
     text-align: center;
   }
   
-  /* Campos de entrada dentro del Login */
-  .login-container .input-field {
+  /* Campos de entrada dentro del Register */
+  .register-container .input-field {
     margin-bottom: 20px;
   }
   
-  .login-container .input-field input {
+  .register-container .input-field input,
+  .register-container .input-field select {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
   }
   
-  .login-container .input-field input:focus {
+  .register-container .input-field input:focus,
+  .register-container .input-field select:focus {
     border-color: #ff3b3f;
   }
   
-  /* Botón de Login */
-  .login-container .login-button {
+  /* Botón de Register */
+  .register-container .register-button {
     width: 100%;
     padding: 12px;
     background-color: #ff3b3f;
@@ -47,40 +49,27 @@
     cursor: pointer;
   }
   
-  .login-container .login-button:hover {
+  .register-container .register-button:hover {
     background-color: #ff5c5f;
   }
   
-  /* Enlace para recuperar contraseña */
-  .login-container .forgot-password-link {
+  /* Enlace para login */
+  .register-container .login-link {
     display: block;
     text-align: center;
-    margin-top: 10px;
-    color: #ff3b3f;
-    text-decoration: none;
-  }
-  
-  .login-container .forgot-password-link:hover {
-    text-decoration: underline;
-  }
-  
-  /* Enlace para registrar */
-  .login-container .register-link {
-    display: block;
-    text-align: center;
-    text-decoration: none;
     margin-top: 15px;
     font-weight: bold;
     color: #ff3b3f;
+    text-decoration: none;
     transition: all 300ms;
   }
-  .login-container .register-link:hover {
+  .register-container .login-link:hover{
     display: block;
     text-align: center;
-    text-decoration: none;
     margin-top: 15px;
     font-weight: bold;
     color: #ff3b3f;
+    text-decoration: none;
     transform: scale(1.1, 1.1);
   }
   
