@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { FaUser, FaCalendar, FaArrowLeft, FaArrowRight, FaRedhat } from "react-icons/fa";
-import { GoHeartFill } from "react-icons/go";
-import { IoShirtSharp, IoAddOutline } from "react-icons/io5";
-import { PiPantsFill } from "react-icons/pi";
-import { GiConverseShoe } from "react-icons/gi";
-import { RiHandbagFill } from "react-icons/ri";
+import { FaUser, FaCalendar } from "react-icons/fa";
+import { IoAddOutline } from "react-icons/io5";
 import { NavLink } from 'react-router-dom';
 import { ClotheCard } from '../clotheCard/ClotheCard';
 import { OutfitCard } from '../outfitCard/OutfitCard';
@@ -13,6 +9,7 @@ import { GuardarEnStorage } from '../utils/guardarEnStorage';
 import './Home.css';
 import '../../modal/Modal.css';
 import { fetcher } from '../../fetcher/fetcher.js';
+import { Searcher } from '../searcher/Searcher';
 
 export const Home = () => {
     const [clothes, setClothes] = useState([]);
@@ -20,9 +17,26 @@ export const Home = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const tagsClothes = [
+        { value: "t-shirt", label: "T-shirt" },
+        { value: "pant", label: "Pant" },
+        { value: "hat", label: "Hat" },
+        { value: "shoe", label: "Shoe" },
+        { value: "bag", label: "Bag" },
+        { value: "dress", label: "Dress" }
+    ];
+    
+    const tagsOutfits = [
+        { value: "winter", label: "Winter" },
+        { value: "summer", label: "Summer" },
+        { value: "casual", label: "Casual" },
+        { value: "formal", label: "Formal" },
+        { value: "beach", label: "Beach" }
+    ];
+
     const fetchClothes = async () => {
       try {
-          const response = await fetcher("clothes/", "GET"); // Usamos fetcher para obtener las prendas
+          const response = await fetcher("clothes/", "GET");
           
           if (!response.ok) {
               throw new Error("Error al obtener las prendas");
@@ -33,9 +47,9 @@ export const Home = () => {
       } catch (error) {
           console.error("Error al obtener las prendas:", error);
       } finally {
-          setLoading(false); // Al terminar la carga, cambiamos el estado de loading
+          setLoading(false);
       }
-  };
+    };
 
     useEffect(() => {
         fetchClothes();
@@ -64,19 +78,10 @@ export const Home = () => {
                 </div>
             </header>
             <section>
-                <div className='search'>
-                    <input type='text' placeholder='Buscar...'/>
-                    <GoHeartFill className='heartIcon'/>
-                </div>
-                <div className='filtro'>
-                    <FaArrowLeft className='flechaIcon'/>
-                    <IoShirtSharp className='filtroIcon'/>
-                    <PiPantsFill className='filtroIcon'/>
-                    <GiConverseShoe className='filtroIcon'/>
-                    <FaRedhat className='filtroIcon'/>
-                    <RiHandbagFill className='filtroIcon'/>
-                    <FaArrowRight className='flechaIcon'/>
-                </div>
+                {showClothes 
+                    ? <Searcher tagsCategory={tagsClothes} /> 
+                    : <Searcher tagsCategory={tagsOutfits} />
+                }
                 {showClothes 
                     ? <ClotheCard clothes={clothes} setClothes={setClothes}/> 
                     : <OutfitCard/>
