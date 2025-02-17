@@ -10,6 +10,7 @@ export const fetcher = (finalUrl, method, body) => {
         },
         body: JSON.stringify(body),
     });
+     
     return response;
 };
 
