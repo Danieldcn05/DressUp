@@ -5,19 +5,19 @@
     position: relative;
     height: 20%;
     margin: auto;
-    margin-bottom: 5rem;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   
   .carousel-slide {
     text-align: center;
     height: 100%;
-    margin-left: 10rem;
-    margin-right: 10rem;
+    margin-left: 6rem;
+    margin-right: 6rem;
     
   }
   
   .carousel-slide img {
-    width: 100%;
     height: 100%;
     object-fit: contain;
   }
@@ -29,7 +29,7 @@
   
   /* Flechas de navegación */
   .arrow {
-    background: rgba(0, 0, 0, 0.5);
+    background: #EF233C;
     border: none;
     color: white;
     font-size: 24px;
@@ -42,7 +42,7 @@
   }
   
   .arrow:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: #D90429;
   }
   
   .prev {

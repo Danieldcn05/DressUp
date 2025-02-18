@@ -35,7 +35,7 @@ const Carousel = ({ items, onItemSelected, filter }) => {
       <button className="arrow prev" onClick={prevSlide}>&#10094;</button>
       <div className="carousel-slide">
         <img src={filteredItems[currentIndex].image} alt={filteredItems[currentIndex].name} />
-        <p className="item-name">{filteredItems[currentIndex].name}</p>
+        
       </div>
       <button className="arrow next" onClick={nextSlide}>&#10095;</button>
     </div>

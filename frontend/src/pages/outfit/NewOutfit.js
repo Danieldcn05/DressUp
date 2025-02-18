@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { IoIosArrowBack } from "react-icons/io";
+import { NavLink } from 'react-router-dom';
 import './NewOutfit.css';
 import Carousel from './carousel/Carousel';
 
@@ -46,12 +48,17 @@ export const NewOutfit = () => {
 
   return (
     <>
+    <NavLink to="/home" className="back-link"> 
+      <IoIosArrowBack className='back'/>
+    </NavLink>
       <div className="carousel-cont">
         <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Parte de arriba")} filter={"Parte de arriba"} />
         <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Parte de abajo")} filter={"Parte de abajo"} />
         <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Zapatillas")} filter={"Zapatillas"}/>
         <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Complemento")} filter={"Complemento"}/>
       </div>
+
+      <button className='boton-save'>Guardar Outfit</button>
     </>
   )
 }
