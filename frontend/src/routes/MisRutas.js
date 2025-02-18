@@ -14,7 +14,7 @@ export const MisRutas = () => {
         <BrowserRouter>
         <section>
           <Routes>
-              <Route path='/' element={<Navigate to='/Home'/>}/>
+              <Route path='/' element={<Navigate to='/login'/>}/>
               <Route path='/home' element={<Home/>}/>
               <Route path='/calendar' element={<Calendar/>}/>
               <Route path='/newoutfit' element={<NewOutfit/>}/>

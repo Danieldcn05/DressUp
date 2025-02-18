@@ -35,31 +35,39 @@ export const Home = () => {
     ];
 
     const fetchClothes = async () => {
-      try {
-          const response = await fetcher("clothes/", "GET");
-          
-          if (!response.ok) {
-              throw new Error("Error al obtener las prendas");
-          }
-
-          const data = await response.json();
-          setClothes(data);
-      } catch (error) {
-          console.error("Error al obtener las prendas:", error);
-      } finally {
-          setLoading(false);
-      }
+        try {
+            const response = await fetcher("clothes/", "GET");
+            if (!response.ok) {
+                throw new Error("Error al obtener las prendas");
+            }
+            const data = await response.json();
+            console.log(data); // Verifica la respuesta del servidor
+            setClothes(data);
+        } catch (error) {
+            console.error("Error al obtener las prendas:", error);
+        } finally {
+            setLoading(false);
+        }
     };
+    
 
     useEffect(() => {
-        fetchClothes();
+        // Intentar cargar prendas desde el localStorage primero
+        const savedClothes = JSON.parse(localStorage.getItem("clothes"));
+        if (savedClothes) {
+            setClothes(savedClothes);
+        } else {
+            fetchClothes(); // Si no hay prendas guardadas, hacer la petición al servidor
+        }
     }, []);
+    
 
     const addClothe = (newClothe) => {
         setClothes(prevClothes => {
             const lastId = prevClothes.length > 0 ? prevClothes[prevClothes.length - 1].id : 0;
             const updatedClothe = { ...newClothe, id: lastId + 1 };
-            GuardarEnStorage("clothes", updatedClothe);
+            // Guardar todas las prendas actualizadas en el localStorage
+            localStorage.setItem("clothes", JSON.stringify([...prevClothes, updatedClothe]));
             return [...prevClothes, updatedClothe];
         });
     };

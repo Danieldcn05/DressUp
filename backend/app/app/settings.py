@@ -193,3 +193,4 @@ CORS_ALLOW_HEADERS = [  # Headers permitidos en las solicitudes
     "X-Requested-With"
 ]
 
+
