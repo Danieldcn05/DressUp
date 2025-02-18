@@ -25,7 +25,7 @@ export const ClotheCard = () => {
     <div className='datos'>
       {clothes.length > 0 ? (
         clothes.map(clothe => (
-          <article key={clothe.id}>
+          <div key={clothe.id} className='clothe-card'>
             <img
               src={clothe.img} 
               alt={clothe.name}
@@ -34,7 +34,7 @@ export const ClotheCard = () => {
             <h3>{clothe.name}</h3>
             <p>{clothe.tags && clothe.tags.map(tag => tag.name).join(', ')}</p>
             <button onClick={() => RemoveClothe(clothe.id)}>Eliminar</button>
-          </article>
+          </div>
         ))
       ) : (
         <p>No hay prendas disponibles.</p> // Mensaje en caso de que no haya prendas
