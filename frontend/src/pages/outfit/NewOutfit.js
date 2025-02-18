@@ -3,6 +3,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
 import './NewOutfit.css';
 import Carousel from './carousel/Carousel';
+import { fetcher } from '../fetcher/fetcher';
 
 const clothes = [
   { id: 1, name: "Camisa Roja", image: "https://picsum.photos/id/237/200/300", tag: "Parte de arriba" },
@@ -26,6 +27,12 @@ const clothes = [
   { id: 19, name: "Zapatillas Deportivas", image: "https://picsum.photos/id/254/200/300", tag: "Zapatillas" },
   { id: 20, name: "Bufanda de Lana", image: "https://picsum.photos/id/255/200/300", tag: "Complemento" },
 ]
+
+fetcher("clothes", "GET")
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  });
 
 export const NewOutfit = () => {
   const [selectedItems, setSelectedItems] = useState({

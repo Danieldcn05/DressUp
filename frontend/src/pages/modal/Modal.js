@@ -25,21 +25,30 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
 
   const handleAddClothe = async () => {
     if (files.length > 0 && selectedTags.length > 0) {
+
+      const userId = await fetcher("users/me", "GET")
+        .then(response => response.json())
+        .then(data => {
+          return data.id;
+
+        });
+
       const formData = new FormData();
       formData.append("name", files[0].name);
       formData.append("img", files[0]);
-      formData.append("user", "1");
+      formData.append("isActive", "true");
+      formData.append("user", userId);
       //selectedTags.forEach(tag => formData.append("tags", tag));
-  
+
       // Log form data for debugging
       for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
-  
+
       try {
         const url = `http://localhost:8000/clothes/create/`;
         const authToken = localStorage.getItem("authToken");
-  
+
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -47,7 +56,7 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
           },
           body: formData,
         });
-  
+
         if (response.ok) {
           const data = await response.json();
           addClothe(data);
