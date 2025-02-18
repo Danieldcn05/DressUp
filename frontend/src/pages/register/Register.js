@@ -61,6 +61,7 @@ export const Register = () => {
   }
 
   return (
+    <div className="register-page">
     <div className="form-container">
       <div className="register-container">
         <h2 className="register-title">Create a new account</h2>
@@ -122,6 +123,7 @@ export const Register = () => {
 
         <Link to="/login" className="login-link">Already a member? Log in</Link>
       </div>
+    </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ export const MisRutas = () => {
   return (
     <div>
         <BrowserRouter>
-        <section>
+        
           <Routes>
               <Route path='/' element={<Navigate to='/login'/>}/>
               <Route path='/home' element={<Home/>}/>
@@ -22,7 +22,7 @@ export const MisRutas = () => {
               <Route path='/register' element={<Register/>}/>
               <Route path='*' element={<Error/>}/>
           </Routes>
-        </section>  
+        
         <Footer/>
         </BrowserRouter>
     </div>
