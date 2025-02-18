@@ -12,6 +12,7 @@ import { fetcher } from '../../fetcher/fetcher.js';
 import { Searcher } from '../searcher/Searcher';
 
 export const Home = () => {
+    const [name, setName] = useState('');
     const [clothes, setClothes] = useState([]);
     const [showClothes, setShowClothes] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,6 +35,8 @@ export const Home = () => {
         { value: "beach", label: "Beach" }
     ];
 
+    
+
     const fetchClothes = async () => {
         try {
             const response = await fetcher("clothes/", "GET");
@@ -49,7 +52,31 @@ export const Home = () => {
             setLoading(false);
         }
     };
+
+    const getName = async () => {
+        const response = await fetcher("users/me", "GET")
+        .then(response => response.json())
+        .then(data => {
+            
+            return data.name;
+
+        });
+    }
+
+    useEffect(() => {
+        const getName = async () => {
+          try {
+            const response = await fetcher("users/me", "GET");
+            const data = await response.json();
+            setName(data.name);
+          } catch (error) {
+            console.error("Error fetching name:", error);
+          }
+        };
     
+        getName();
+      }, []);
+   
 
     useEffect(() => {
         // Intentar cargar prendas desde el localStorage primero
@@ -77,7 +104,7 @@ export const Home = () => {
             <header>
                 <div className='user'>
                     <FaUser className='userIcon'/>
-                    <h1>Carmen</h1>
+                    <h1>{name}</h1>
                     <NavLink to="/calendar"><FaCalendar className='calendarIcon'/></NavLink>
                 </div>
                 <div className='info'>

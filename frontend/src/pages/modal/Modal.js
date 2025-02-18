@@ -37,7 +37,7 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
       formData.append("name", files[0].name);
       formData.append("img", files[0]);
       formData.append("isActive", "true");
-      formData.append("user", userId);
+      
       //selectedTags.forEach(tag => formData.append("tags", tag));
 
       // Log form data for debugging

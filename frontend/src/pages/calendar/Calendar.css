@@ -1,77 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;800&display=swap");
 
 .calendar-container {
-    font-family: 'Arial', sans-serif;
-    margin: 20px auto;
-    width: 80%;
-    max-width: 600px;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .calendar-header {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #4e4e4e;
-  }
-  
-  .calendar-navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .nav-button {
-    background-color: #3a86ff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 0 10px;
-    transition: background-color 0.3s;
-  }
-  
-  .nav-button:hover {
-    background-color: #2a64c4;
-  }
-  
-  .month-label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .days-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .day-box {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    margin: 5px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-  
-  .weekend {
-    background-color: #f7f7f7;
-  }
-  
-  .day-box:hover {
-    background-color: #e0e0e0;
-  }
-  
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	font-family: "Poppins", serif;
+	background: var(--bg-color);
+
+}
+.title {
+  color: var(--soft-red);
+  font-size: 1.8rem;
+}
+
+.calendar-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	flex-wrap: wrap;
+	list-style: none;
+  padding: 0;
+
+	li {
+		display: flex;
+		width: 10rem;
+		height: 10rem;
+		margin: 0.25rem;
+		flex-flow: column;
+		border-radius: 0.2rem;
+		padding: 1rem;
+		font-weight: 300;
+		font-size: 0.8rem;
+		box-sizing: border-box;
+		background: rgba(255, 255, 255, 0.25);
+		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+
+		time {
+			font-size: 2rem;
+			margin: 0 0 1rem 0;
+			font-weight: 500;
+		}
+	}
+}
+.button{
+  font-size: 4rem;
+  cursor: pointer;
+}
+.previous{
+ color: var(--dark);   
+}
+
+.next{
+  color: var(--dark);
+}
+.title-cont{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.back{
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #EF233C;
+}

@@ -34,12 +34,14 @@ header{
     margin-top: 2%;
 }
 .info p{
-    transition: all 200ms;
+    transition: all 100ms;
+    cursor: pointer;
 }
 .info .selected,
 .info p:hover{
     border-bottom: 2px solid var(--dark-red);
     font-weight: bold;
+    
 }
 
 section{

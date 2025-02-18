@@ -1,61 +1,71 @@
 import React, { useState } from 'react';
-import './Calendar.css';  
+import './Calendar.css';
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
+import { NavLink } from 'react-router-dom';
 
 export const Calendar = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); 
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); 
-
-  const monthNames = [
-    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  const monthData = [
+    { name: "Enero", days: 31 },
+    { name: "Febrero", days: 28 },
+    { name: "Marzo", days: 31 },
+    { name: "Abril", days: 30 },
+    { name: "Mayo", days: 31 },
+    { name: "Junio", days: 30 },
+    { name: "Julio", days: 31 },
+    { name: "Agosto", days: 31 },
+    { name: "Septiembre", days: 30 },
+    { name: "Octubre", days: 31 },
+    { name: "Noviembre", days: 30 },
+    { name: "Diciembre", days: 31 }
   ];
 
-  const daysInMonth = (month, year) => {
-    return new Date(year, month + 1, 0).getDate(); 
-  };
+  const d = new Date();
+  const [currentMonth, setCurrentMonth] = useState(d.getMonth());
+  const [currentYear, setCurrentYear] = useState(d.getFullYear());
 
-  const nextMonth = () => {
-    setCurrentMonth((prevMonth) => (prevMonth === 11 ? 0 : prevMonth + 1));
-    if (currentMonth === 11) {
-      setCurrentYear((prevYear) => prevYear + 1);
-    }
-  };
-
-  const prevMonth = () => {
-    setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
+  const handlePreviousMonth = () => {
     if (currentMonth === 0) {
-      setCurrentYear((prevYear) => prevYear - 1); 
+      setCurrentMonth(11);
+      setCurrentYear(currentYear - 1);
+    } else {
+      setCurrentMonth(currentMonth - 1);
     }
   };
+
+  const handleNextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0);
+      setCurrentYear(currentYear + 1);
+    } else {
+      setCurrentMonth(currentMonth + 1);
+    }
+  };
+
+  const mes = monthData[currentMonth].name;
+  const days = monthData[currentMonth].days;
 
   return (
     <div className="calendar-container">
-      <h2 className="calendar-header">Calendario</h2>
-    
-      <div className="calendar-navigation">
-        <button onClick={prevMonth} className="nav-button">
-          Anterior
-        </button>
-        <span className="month-label">{`${monthNames[currentMonth]} ${currentYear}`}</span>
-        <button onClick={nextMonth} className="nav-button">
-          Siguiente
-        </button>
+      <NavLink to="/home" className="back-link">
+        <IoIosArrowBack className='back' />
+      </NavLink>
+
+      <div className='title-cont'>
+        <IoIosArrowBack onClick={handlePreviousMonth} className='button previous' />
+        <h1 className='title'>{mes + ' ' + currentYear}</h1>
+        <IoIosArrowForward onClick={handleNextMonth} className='button next' />
       </div>
 
-      <div className="days-container">
-        {[...Array(daysInMonth(currentMonth, currentYear))].map((_, index) => {
-          const day = index + 1;
-          return (
-            <div
-              key={day}
-              className={`day-box ${day % 7 === 0 || (day + 1) % 7 === 0 ? 'weekend' : ''}`}
-            >
-              {day}
-            </div>
-          );
-        })}
+      <ul className='calendar-grid'>
+        {Array.from({ length: days }, (_, i) => (
+          <li key={i + 1}><time dateTime={`${currentYear}-${currentMonth + 1}-${i + 1}`}>{i + 1}</time></li>
+        ))}
+      </ul>
+
+      <div className="calendar-navigation">
+
       </div>
     </div>
   );
 };
-
