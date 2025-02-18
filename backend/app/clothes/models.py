@@ -9,5 +9,5 @@ class Clothes(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tags, blank=True)
-    img = models.ImageField(upload_to="clothes")
+    img = models.ImageField(upload_to="media/clothes")
     isActive = models.BooleanField(default=True)
