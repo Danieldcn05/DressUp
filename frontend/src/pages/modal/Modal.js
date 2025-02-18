@@ -4,16 +4,16 @@ import './Modal.css';
 import { fetcher } from '../fetcher/fetcher';
 
 export const Modal = ({ setIsModalOpen, addClothe }) => {
-  
+
   const [files, setFiles] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]); 
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const handleTagChange = (event) => {
     const tag = event.target.value;
-    setSelectedTags(prevTags => 
+    setSelectedTags(prevTags =>
       prevTags.includes(tag)
-        ? prevTags.filter(t => t !== tag) 
-        : [...prevTags, tag] 
+        ? prevTags.filter(t => t !== tag)
+        : [...prevTags, tag]
     );
   };
 
@@ -26,17 +26,32 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
   const handleAddClothe = async () => {
     if (files.length > 0 && selectedTags.length > 0) {
       const formData = new FormData();
-      formData.append("name", files[0].name); 
-      formData.append("img", files[0]); 
-      selectedTags.forEach(tag => formData.append("tags", tag)); 
+      formData.append("name", files[0].name);
+      formData.append("img", files[0]);
+      formData.append("user", "1");
+      //selectedTags.forEach(tag => formData.append("tags", tag));
+  
+      // Log form data for debugging
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
   
       try {
-        const response = await fetcher("clothes/create/", "POST", formData);
-
+        const url = `http://localhost:8000/clothes/create/`;
+        const authToken = localStorage.getItem("authToken");
+  
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: formData,
+        });
+  
         if (response.ok) {
           const data = await response.json();
-          addClothe(data); 
-          setIsModalOpen(false); 
+          addClothe(data);
+          setIsModalOpen(false);
         } else {
           console.error("Error al subir la prenda:", await response.text());
         }
@@ -70,52 +85,42 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
           <div className="divTags">
             <ul>
               <li className="tag">
-                  <input 
-                    type="checkbox" 
-                    value="T-shirt" 
-                    onChange={handleTagChange} 
-                    id="tshirt-checkbox"
-                  />
-                  <label htmlFor="tshirt-checkbox">T-Shirt</label>
+                <input
+                  type="checkbox"
+                  value="Parte de Arriba"
+                  onChange={handleTagChange}
+                  id="tshirt-checkbox"
+                />
+                <label htmlFor="tshirt-checkbox">Parte de Arriba</label>
               </li>
               <li className="tag">
-                  <input 
-                    type="checkbox" 
-                    value="Pant" 
-                    onChange={handleTagChange} 
-                    id="pant-checkbox"
-                  />
-                  <label htmlFor="pant-checkbox">Pant</label>
+                <input
+                  type="checkbox"
+                  value="Parte de Abajo"
+                  onChange={handleTagChange}
+                  id="pant-checkbox"
+                />
+                <label htmlFor="pant-checkbox">Parte de Abajo</label>
               </li>
               <li className="tag">
-                  <input 
-                    type="checkbox" 
-                    value="Shoe" 
-                    onChange={handleTagChange} 
-                    id="shoe-checkbox"
-                  />
-                  <label htmlFor="shoe-checkbox">Shoe</label>
+                <input
+                  type="checkbox"
+                  value="Zapatillas"
+                  onChange={handleTagChange}
+                  id="shoe-checkbox"
+                />
+                <label htmlFor="shoe-checkbox">Zapatillas</label>
               </li>
               <li className="tag">
-                  <input 
-                    type="checkbox" 
-                    value="Hat" 
-                    onChange={handleTagChange} 
-                    id="hat-checkbox"
-                  />
-                  <label htmlFor="hat-checkbox">Hat</label>
+                <input
+                  type="checkbox"
+                  value="Complemento"
+                  onChange={handleTagChange}
+                  id="hat-checkbox"
+                />
+                <label htmlFor="hat-checkbox">Complemento</label>
               </li>
-              <li className="tag">
-                <div>
-                  <input 
-                    type="checkbox" 
-                    value="Bag" 
-                    onChange={handleTagChange} 
-                    id="bag-checkbox"
-                  />
-                  <label htmlFor="bag-checkbox">Bag</label>
-                </div>
-              </li>
+
             </ul>
           </div>
         </div>
