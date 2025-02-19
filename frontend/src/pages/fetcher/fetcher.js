@@ -2,6 +2,8 @@ export const fetcher = (finalUrl, method, body) => {
     const url = `http://localhost:8000/${finalUrl}`;
     const authToken = localStorage.getItem("authToken");
 
+    console.log(authToken);
+
     const response = fetch(url, {
         method: method,
         headers: {

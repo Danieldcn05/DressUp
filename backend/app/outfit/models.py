@@ -12,5 +12,5 @@ class Outfit(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     Garments = models.ManyToManyField(Clothes, blank=True)  # Cambia a ManyToManyField
     tags = models.ManyToManyField(Tags, blank=True)
-    img = models.ImageField(upload_to="outfit")
+    img = models.ImageField(upload_to="outfit", blank=True)
     isActive = models.BooleanField(default=True)
