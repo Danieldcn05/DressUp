@@ -5,42 +5,38 @@ import './NewOutfit.css';
 import Carousel from './carousel/Carousel';
 import { fetcher } from '../fetcher/fetcher';
 
-const clothes = [
-  { id: 1, name: "Camisa Roja", image: "https://picsum.photos/id/237/200/300", tag: "Parte de arriba" },
-  { id: 2, name: "Pantalón Negro", image: "https://picsum.photos/id/238/200/300", tag: "Parte de abajo" },
-  { id: 3, name: "Chaqueta Azul", image: "https://picsum.photos/id/239/200/300", tag: "Parte de arriba" },
-  { id: 4, name: "Zapatos Blancos", image: "https://picsum.photos/id/232/200/300", tag: "Zapatillas" },
-  { id: 5, name: "Sudadera Gris", image: "https://picsum.photos/id/240/200/300", tag: "Parte de arriba" },
-  { id: 6, name: "Pantalón de Chándal", image: "https://picsum.photos/id/241/200/300", tag: "Parte de abajo" },
-  { id: 7, name: "Blusa Verde", image: "https://picsum.photos/id/242/200/300", tag: "Parte de arriba" },
-  { id: 8, name: "Falda Roja", image: "https://picsum.photos/id/243/200/300", tag: "Parte de abajo" },
-  { id: 9, name: "Bota Negra", image: "https://picsum.photos/id/244/200/300", tag: "Zapatillas" },
-  { id: 10, name: "Sombrero de Paja", image: "https://picsum.photos/id/199/200/300", tag: "Complemento" },
-  { id: 11, name: "Camiseta Blanca", image: "https://picsum.photos/id/200/200/300", tag: "Parte de arriba" },
-  { id: 12, name: "Pantalón Vaquero", image: "https://picsum.photos/id/247/200/300", tag: "Parte de abajo" },
-  { id: 13, name: "Gafas de Sol", image: "https://picsum.photos/id/248/200/300", tag: "Complemento" },
-  { id: 14, name: "Botines Marrones", image: "https://picsum.photos/id/249/200/300", tag: "Zapatillas" },
-  { id: 15, name: "Chaqueta de Cuero", image: "https://picsum.photos/id/250/200/300", tag: "Parte de arriba" },
-  { id: 16, name: "Mochila de Cuero", image: "https://picsum.photos/id/251/200/300", tag: "Complemento" },
-  { id: 17, name: "Camisa de Rayas", image: "https://picsum.photos/id/252/200/300", tag: "Parte de arriba" },
-  { id: 18, name: "Pantalón Corto", image: "https://picsum.photos/id/253/200/300", tag: "Parte de abajo" },
-  { id: 19, name: "Zapatillas Deportivas", image: "https://picsum.photos/id/254/200/300", tag: "Zapatillas" },
-  { id: 20, name: "Bufanda de Lana", image: "https://picsum.photos/id/255/200/300", tag: "Complemento" },
-]
-
-fetcher("clothes", "GET")
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  });
-
 export const NewOutfit = () => {
+  const [userClothes, setUserClothes] = useState([]);
   const [selectedItems, setSelectedItems] = useState({
     "Parte de arriba": null,
     "Parte de abajo": null,
     "Zapatillas": null,
     "Complemento": null
   });
+
+  const getId = async () => {
+    const response = await fetcher("users/me", "GET")
+      .then(response => response.json())
+      .then(data => {
+        return data.id;
+      })
+      .catch(error => {
+        console.error("Error fetching user ID:", error);
+      });
+    return response;
+  }
+  
+
+  useEffect(() => {
+    fetcher("clothes", "GET")
+      .then(response => response.json())
+      .then(async data => {
+        const userId = await getId();
+        const filteredClothes = data.filter(item => item.user === userId);
+        setUserClothes(filteredClothes);
+        console.log(filteredClothes);
+      });
+  }, []);
 
   const handleItemSelected = (id, tag) => {
     setSelectedItems(prevSelectedItems => ({
@@ -53,19 +49,48 @@ export const NewOutfit = () => {
     console.log("Selected items:", selectedItems);
   }, [selectedItems]);
 
+
+  const saveOutfit = async () => {
+
+    const userId = await getId();
+    const outfit = {
+      "Garments": [
+        selectedItems["Parte de arriba"],
+        selectedItems["Parte de abajo"],
+        selectedItems["Zapatillas"],
+        selectedItems["Complemento"]
+      ],
+      "user": userId,
+      "img":""
+    }
+
+
+    fetcher("outfit/create/", "POST", outfit)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+  }
+
   return (
     <>
-    <NavLink to="/home" className="back-link"> 
-      <IoIosArrowBack className='back'/>
-    </NavLink>
+      <NavLink to="/home" className="back-link">
+        <IoIosArrowBack className='back' />
+      </NavLink>
       <div className="carousel-cont">
-        <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Parte de arriba")} filter={"Parte de arriba"} />
-        <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Parte de abajo")} filter={"Parte de abajo"} />
-        <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Zapatillas")} filter={"Zapatillas"}/>
-        <Carousel items={clothes} onItemSelected={(id) => handleItemSelected(id, "Complemento")} filter={"Complemento"}/>
+        {userClothes.length > 0 ? (
+          <>
+            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Parte de arriba")} />
+            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Parte de abajo")} />
+            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Zapatillas")} />
+            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Complemento")} />
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
 
-      <button className='boton-save'>Guardar Outfit</button>
+      <button className='boton-save' onClick={saveOutfit}>Guardar Outfit</button>
     </>
-  )
+  );
 }
