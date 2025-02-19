@@ -79,3 +79,36 @@ class DeleteClothesView(idUserFilterMixin, generics.DestroyAPIView):
             },
             status=status.HTTP_204_NO_CONTENT,
         )
+
+
+class InactiveClothesView(idUserFilterMixin, generics.UpdateAPIView):
+    queryset = Clothes.objects.all()
+    serializer_class = ClothesSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = "pk"
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.get(pk=self.kwargs["pk"])
+        return obj
+
+    def perform_update(self, serializer):
+        serializer.save(isActive=False)
+        return Response(
+            {
+                "response": "Clothes inactivated successfully",
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class InactiveClothesList(idUserFilterMixin, generics.ListAPIView):
+    queryset = Clothes.objects.all()
+    serializer_class = ClothesSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = self.filter_by_id_user(queryset)
+        queryset = queryset.filter(isActive=False)
+        return queryset
