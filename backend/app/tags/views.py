@@ -10,7 +10,7 @@ from user.mixins import idUserFilterMixin
 
 
 class TagsList(idUserFilterMixin, generics.ListCreateAPIView):
-   #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Tags.objects.all()
     serializer_class = TagsSerializer
 
