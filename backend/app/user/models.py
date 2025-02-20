@@ -62,7 +62,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     last_login = models.DateTimeField(default=timezone.now)
-    picture = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
+    picture = models.ImageField(upload_to="media/profile_pictures/", blank=True, null=True)
     objects = CustomUserManager()
 
     USERNAME_FIELD = "email"
