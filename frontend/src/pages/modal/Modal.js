@@ -6,15 +6,11 @@ import { IoCloseOutline } from "react-icons/io5";
 
 export const Modal = ({ setIsModalOpen, fetchClothes }) => {
     const [files, setFiles] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedTag, setSelectedTag] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleTagChange = (event) => {
-        const tag = event.target.value;
-        setSelectedTags((prevTags) =>
-            prevTags.includes(tag)
-                ? prevTags.filter((t) => t !== tag)
-                : [...prevTags, tag]
-        );
+        setSelectedTag(event.target.value);
     };
 
     const onDrop = useCallback((acceptedFiles) => {
@@ -26,7 +22,8 @@ export const Modal = ({ setIsModalOpen, fetchClothes }) => {
     });
 
     const handleAddClothe = async () => {
-        if (files.length > 0 && selectedTags.length > 0) {
+        if (files.length > 0 && selectedTag) {
+            setIsLoading(true);
             const userId = await fetcher("users/me", "GET")
                 .then((response) => response.json())
                 .then((data) => {
@@ -38,12 +35,7 @@ export const Modal = ({ setIsModalOpen, fetchClothes }) => {
             formData.append("img", files[0]);
             formData.append("isActive", "true");
             formData.append("user", userId);
-            selectedTags.forEach((tag) => formData.append("tags", tag));
-
-            // Log form data for debugging
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
+            formData.append("tags", selectedTag);
 
             try {
                 const url = `http://localhost:8000/clothes/create/`;
@@ -69,6 +61,8 @@ export const Modal = ({ setIsModalOpen, fetchClothes }) => {
                 }
             } catch (error) {
                 console.error("Error en la solicitud:", error);
+            } finally {
+                setIsLoading(false);
             }
         } else {
             console.error(
@@ -158,6 +152,14 @@ export const Modal = ({ setIsModalOpen, fetchClothes }) => {
                     onClick={() => setIsModalOpen(false)}
                 />
             </div>
+            {isLoading && (
+                <div className="loader-overlay">
+                    <div className="loader">
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
