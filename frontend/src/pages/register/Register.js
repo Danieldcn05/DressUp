@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import './Register.css'; 
+import { Link, useNavigate } from 'react-router-dom';
+import './Register.css';
 
 const avatarOptions = [
   "/avatars/actriz.png",
@@ -20,10 +19,9 @@ export const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    picture: null // Cambié el valor a null para almacenar el archivo real
+    picture: null
   });
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -32,21 +30,33 @@ export const Register = () => {
       ...prevState,
       [name]: value
     }));
-  }
+  };
 
-  // Función para manejar la selección de archivo (imagen)
+  // Manejar la subida manual de un archivo de imagen
   const handleAvatarChange = (e) => {
-    const file = e.target.files[0]; // Asegurarse de que el archivo esté presente
+    const file = e.target.files[0];
     if (file) {
       setFormData(prevState => ({
         ...prevState,
-        picture: file // Almacenar el archivo real en el estado
+        picture: file
       }));
     }
   };
 
-  const handleAvatarSelect = (avatar) => {
-    setFormData({ ...formData, picture: avatar });
+  // Convertir la URL del avatar a un archivo real y almacenarlo en el estado
+  const handleAvatarSelect = async (avatarUrl) => {
+    try {
+      const response = await fetch(avatarUrl);
+      const blob = await response.blob();
+      const file = new File([blob], avatarUrl.split("/").pop(), { type: blob.type });
+
+      setFormData(prevState => ({
+        ...prevState,
+        picture: file
+      }));
+    } catch (error) {
+      console.error("Error al obtener la imagen:", error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -57,22 +67,11 @@ export const Register = () => {
       return;
     }
 
-    // Crea un FormData para enviar los datos del formulario
     const form = new FormData();
     form.append("name", formData.name);
     form.append("email", formData.email);
     form.append("password", formData.password);
-
-    // Verifica que 'picture' sea un archivo y lo agrega
-    if (formData.picture) {
-      if (formData.picture instanceof File) {
-        console.log(formData.picture)
-        form.append("picture", formData.picture); // Si es un archivo, lo agregamos
-      } else {
-        console.log(formData.picture)
-        form.append("picture_url", formData.picture); // Si es una URL, la enviamos como `picture_url`
-      }
-    }
+    form.append("picture", formData.picture); // Siempre es un archivo ahora
 
     try {
       const response = await fetch('http://localhost:8000/users/register/', {
@@ -87,13 +86,11 @@ export const Register = () => {
         navigate('/login');
         setErrorMessage('');
       } else {
-        setSuccessMessage('');
         setErrorMessage(data?.response || 'Hubo un error al registrar el usuario.');
       }
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('Hubo un error en la conexión con el servidor.');
-      setSuccessMessage('');
     }
   };
 
@@ -103,7 +100,6 @@ export const Register = () => {
         <div className="register-container">
           <h2 className="register-title">Create a new account</h2>
 
-          {successMessage && <p className="success-message">{successMessage}</p>}
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -165,9 +161,9 @@ export const Register = () => {
                     style={{ cursor: 'pointer', display: 'inline-block', margin: '10px' }}
                   >
                     <img 
-                      src={avatar} // Asegúrate de que la ruta sea correcta
-                      alt={`Avatar ${avatar}`} 
-                      className={`avatar-image ${formData.picture === avatar ? 'selected' : ''}`} 
+                      src={avatar} 
+                      alt={`Avatar ${index}`} 
+                      className={`avatar-image ${formData.picture?.name === avatar.split("/").pop() ? 'selected' : ''}`} 
                       width="50" 
                       height="50" 
                     />
@@ -179,9 +175,10 @@ export const Register = () => {
                 name="picture" 
                 accept="image/*" 
                 onChange={handleAvatarChange} 
-                style={{ display: 'block' }}  // Hacemos visible el input de archivo para que el usuario seleccione
+                style={{ display: 'block' }}  
               />
             </div>
+
             <button className="register-button" type="submit">Register</button>
           </form>
 

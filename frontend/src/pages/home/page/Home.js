@@ -31,7 +31,7 @@ export const Home = () => {
             setName(data.name);
             setIdUser(data.id);
             GuardarEnStorage("idUser", data.id);
-            setAvatarUrl(data.avatar);
+            setAvatarUrl(data.picture);
 
         } catch (error) {
             console.error("Error fetching name:", error);
@@ -51,10 +51,6 @@ export const Home = () => {
                 throw new Error("Error al obtener los outfits");
             }
             let data = await response.json();
-
-            
-            
-
             setOutfits(data);
             GuardarEnStorage("outfits", data);
         } catch (error) {
