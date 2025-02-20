@@ -99,24 +99,12 @@ export const Home = () => {
     }, []);
 
 
-    const tagsClothes = [
-        { value: "t-shirt", label: "T-shirt" },
-        { value: "pant", label: "Pant" },
-        { value: "hat", label: "Hat" },
-        { value: "shoe", label: "Shoe" },
-        { value: "bag", label: "Bag" },
-        { value: "dress", label: "Dress" }
+    const tags = [
+        { value: 1, label: "Parte de Arriba" },
+        { value: 2, label: "Parte de Abajo" },
+        { value: 3, label: "Zapatillas" },
+        { value: 4, label: "Complemento" }
     ];
-
-    const tagsOutfits = [
-        { value: "winter", label: "Winter" },
-        { value: "summer", label: "Summer" },
-        { value: "casual", label: "Casual" },
-        { value: "formal", label: "Formal" },
-        { value: "beach", label: "Beach" }
-    ];
-
-
 
     return (
         <div className='home'>
@@ -139,8 +127,8 @@ export const Home = () => {
             </header>
             <section>
                 {showClothes
-                    ? <Searcher tagsCategory={tagsClothes} />
-                    : <Searcher tagsCategory={tagsOutfits} />
+                    ? <Searcher tagsCategory={tags} />
+                    : <h2 className="text-lg font-semibold mb-2">DressUp</h2>
                 }
                 {showClothes
                     ? <div className='clothes-cont'>
