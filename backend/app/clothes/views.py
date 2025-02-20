@@ -11,11 +11,11 @@ from rest_framework import status
 class ClothesList(idUserFilterMixin, generics.ListCreateAPIView):
     queryset = Clothes.objects.all()
     serializer_class = ClothesSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = self.filter_by_id_user(queryset)
+        #queryset = self.filter_by_id_user(queryset)
         return queryset
 
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { IoIosArrowBack } from "react-icons/io";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './NewOutfit.css';
 import Carousel from './carousel/Carousel';
 import { fetcher } from '../fetcher/fetcher';
+import { WiStars } from "react-icons/wi";
 
 export const NewOutfit = () => {
   const [userClothes, setUserClothes] = useState([]);
@@ -13,6 +14,8 @@ export const NewOutfit = () => {
     "Zapatillas": null,
     "Complemento": null
   });
+
+  const navigate = useNavigate();
 
   const getId = async () => {
     const response = await fetcher("users/me", "GET")
@@ -25,7 +28,7 @@ export const NewOutfit = () => {
       });
     return response;
   }
-  
+
 
   useEffect(() => {
     fetcher("clothes", "GET")
@@ -60,17 +63,37 @@ export const NewOutfit = () => {
         selectedItems["Zapatillas"],
         selectedItems["Complemento"]
       ],
-      "user": userId,
-      "img":""
+      "user": userId
     }
 
 
     fetcher("outfit/create/", "POST", outfit)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+
+
+
+    navigate('/home');
+
   }
+
+
+  const randomizeOutfit = () => {
+    const categories = ["Parte de arriba", "Parte de abajo", "Zapatillas", "Complemento"];
+    const newSelectedItems = {};
+
+    categories.forEach(category => {
+
+      const randomItem = userClothes[Math.floor(Math.random() * userClothes.length)];
+      newSelectedItems[category] = randomItem.id;
+
+    });
+
+    setSelectedItems(newSelectedItems);
+  };
+
 
   return (
     <>
@@ -90,7 +113,12 @@ export const NewOutfit = () => {
         )}
       </div>
 
-      <button className='boton-save' onClick={saveOutfit}>Guardar Outfit</button>
+      <div className='but-cont'>
+
+        <button className='boton-save' onClick={saveOutfit}>Guardar Outfit</button>
+
+        <WiStars onClick={randomizeOutfit} className='random' />
+      </div>
     </>
   );
 }

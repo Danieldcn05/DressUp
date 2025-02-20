@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import './Modal.css';
 import { fetcher } from '../fetcher/fetcher';
 
-export const Modal = ({ setIsModalOpen, addClothe }) => {
+export const Modal = ({ setIsModalOpen, fetchClothes }) => {
 
   const [files, setFiles] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -58,8 +58,8 @@ export const Modal = ({ setIsModalOpen, addClothe }) => {
         });
 
         if (response.ok) {
-          const data = await response.json();
-          addClothe(data);
+          console.log("Prenda subida correctamente");
+          fetchClothes();
           setIsModalOpen(false);
         } else {
           console.error("Error al subir la prenda:", await response.text());

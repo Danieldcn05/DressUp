@@ -5,18 +5,96 @@ import { NavLink } from 'react-router-dom';
 import { ClotheCard } from '../clotheCard/ClotheCard';
 import { OutfitCard } from '../outfitCard/OutfitCard';
 import { Modal } from '../../modal/Modal';
-import { GuardarEnStorage } from '../utils/guardarEnStorage';
 import './Home.css';
 import '../../modal/Modal.css';
 import { fetcher } from '../../fetcher/fetcher.js';
 import { Searcher } from '../searcher/Searcher';
 
 export const Home = () => {
-    const [name, setName] = useState('');
-    const [clothes, setClothes] = useState([]);
     const [showClothes, setShowClothes] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
+
+    const [name, setName] = useState('');
+    const [idUser, setIdUser] = useState('');
+
+    const [outfits, setOutfits] = useState([]);
+    const [clothes, setClothes] = useState([]);
+
+
+    // Fetch de nombre de usuario
+    const getUserInfo = async () => {
+        try {
+            const response = await fetcher("users/me", "GET");
+            const data = await response.json();
+            setName(data.name);
+            setIdUser(data.id);
+
+        } catch (error) {
+            console.error("Error fetching name:", error);
+        }
+    };
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
+
+
+    // Fetch de outfits
+    const fetchOutfits = async () => {
+        try {
+            const response = await fetcher("outfit/", "GET");
+            if (!response.ok) {
+                throw new Error("Error al obtener los outfits");
+            }
+            let data = await response.json();
+
+            //Filtra los outfits del usuario por id ya que no funciona lo otro
+            data = data.filter(outfit => outfit.user === idUser);
+            
+            console.log(data);
+            setOutfits(data);
+        } catch (error) {
+            console.error("Error al obtener los outfits:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchOutfits();
+    }, []);
+
+    // Ejecuta fetchOutfits solo cuando idUser haya sido establecido
+    useEffect(() => {
+        if (idUser) {
+            fetchOutfits();
+            fetchClothes();
+        }
+    }, [idUser]);
+
+
+
+
+
+    // Fetch de prendas
+    const fetchClothes = async () => {
+        try {
+            const response = await fetcher("clothes/", "GET");
+            if (!response.ok) {
+                throw new Error("Error al obtener las prendas");
+            }
+            let data = await response.json();
+            
+            data = data.filter(clothe => clothe.user === idUser);
+            console.log(data); // Verifica la respuesta del servidor
+            setClothes(data);
+        } catch (error) {
+            console.error("Error al obtener las prendas:", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchClothes();
+    }, []);
+
 
     const tagsClothes = [
         { value: "t-shirt", label: "T-shirt" },
@@ -26,7 +104,7 @@ export const Home = () => {
         { value: "bag", label: "Bag" },
         { value: "dress", label: "Dress" }
     ];
-    
+
     const tagsOutfits = [
         { value: "winter", label: "Winter" },
         { value: "summer", label: "Summer" },
@@ -35,99 +113,53 @@ export const Home = () => {
         { value: "beach", label: "Beach" }
     ];
 
-    
 
-    const fetchClothes = async () => {
-        try {
-            const response = await fetcher("clothes/", "GET");
-            if (!response.ok) {
-                throw new Error("Error al obtener las prendas");
-            }
-            const data = await response.json();
-            console.log(data); // Verifica la respuesta del servidor
-            setClothes(data);
-        } catch (error) {
-            console.error("Error al obtener las prendas:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    const getName = async () => {
-        const response = await fetcher("users/me", "GET")
-        .then(response => response.json())
-        .then(data => {
-            
-            return data.name;
 
-        });
-    }
 
-    useEffect(() => {
-        const getName = async () => {
-          try {
-            const response = await fetcher("users/me", "GET");
-            const data = await response.json();
-            setName(data.name);
-          } catch (error) {
-            console.error("Error fetching name:", error);
-          }
-        };
-    
-        getName();
-      }, []);
-   
 
-    useEffect(() => {
-        // Intentar cargar prendas desde el localStorage primero
-        const savedClothes = JSON.parse(localStorage.getItem("clothes"));
-        if (savedClothes) {
-            setClothes(savedClothes);
-        } else {
-            fetchClothes(); // Si no hay prendas guardadas, hacer la petición al servidor
-        }
-    }, []);
-    
 
-    const addClothe = (newClothe) => {
-        setClothes(prevClothes => {
-            const lastId = prevClothes.length > 0 ? prevClothes[prevClothes.length - 1].id : 0;
-            const updatedClothe = { ...newClothe, id: lastId + 1 };
-            // Guardar todas las prendas actualizadas en el localStorage
-            localStorage.setItem("clothes", JSON.stringify([...prevClothes, updatedClothe]));
-            return [...prevClothes, updatedClothe];
-        });
-    };
 
     return (
         <div className='home'>
             <header>
                 <div className='user'>
-                    <FaUser className='userIcon'/>
+                    <FaUser className='userIcon' />
                     <h1>{name}</h1>
-                    <NavLink to="/calendar"><FaCalendar className='calendarIcon'/></NavLink>
+                    <NavLink to="/calendar"><FaCalendar className='calendarIcon' /></NavLink>
                 </div>
                 <div className='info'>
-                    <p className={showClothes ? 'selected' : ''} onClick={() => setShowClothes(true)}>185 prendas</p>
-                    <p className={!showClothes ? 'selected' : ''} onClick={() => setShowClothes(false)}>23 Outfits</p>
+                    <p className={showClothes ? 'selected' : ''} onClick={() => setShowClothes(true)}>{clothes.length} Prendas</p>
+                    <p className={!showClothes ? 'selected' : ''} onClick={() => setShowClothes(false)}>{outfits.length} Outfits</p>
                 </div>
             </header>
             <section>
-                {showClothes 
-                    ? <Searcher tagsCategory={tagsClothes} /> 
+                {showClothes
+                    ? <Searcher tagsCategory={tagsClothes} />
                     : <Searcher tagsCategory={tagsOutfits} />
                 }
-                {showClothes 
-                    ? <ClotheCard clothes={clothes} setClothes={setClothes}/> 
-                    : <OutfitCard/>
+                {showClothes
+                    ? <div className='clothes-cont'>
+                        {clothes.map(clothe => (
+                            <ClotheCard key={clothe.id} clothe={clothe} fetchClothes={fetchClothes}/>
+                        ))}
+                    </div>
+
+                    : <div className='outfits-cont'>
+                        {outfits.map(outfit => (
+                            <OutfitCard key={outfit.id} outfit={outfit} fetchOutfits={fetchOutfits} />
+                        ))}
+                    </div>
                 }
+
+
             </section>
             <div className='add'>
-                {!showClothes 
-                    ? <NavLink to="/newoutfit"><IoAddOutline className='addIcon'/></NavLink> 
-                    : <IoAddOutline className='addIcon' onClick={() => setIsModalOpen(true)}/>
+                {!showClothes
+                    ? <NavLink to="/newoutfit"><IoAddOutline className='addIcon' /></NavLink>
+                    : <IoAddOutline className='addIcon' onClick={() => setIsModalOpen(true)} />
                 }
-                {isModalOpen && (<Modal setIsModalOpen={setIsModalOpen} addClothe={addClothe}/>)}
+                {isModalOpen && (<Modal setIsModalOpen={setIsModalOpen} fetchClothes={fetchClothes} />)}
             </div>
         </div>
     );

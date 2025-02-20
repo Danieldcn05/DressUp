@@ -1,17 +1,25 @@
-
-.datos{
-    width: 70%;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-    margin: 0 auto;
-    margin-top: 5rem;
-}
-
-.clothe-card{
+.clothe-card {
     width: 15rem;
     height: 20rem;
     margin: 1rem;
     border-radius: 10px;
     background-color: var(--grey);
+    position: relative;
+}
+
+.trash {
+    cursor: pointer;
+    font-size: 2rem;
+    visibility: hidden;
+    color: var(--soft-red);
+    position: absolute;
+    top: 80%;
+    left: 75%;
+    opacity: 0; /* Inicialmente invisible */
+    transition: visibility 0s, opacity 0.5s ease-in-out; /* Transición para visibilidad y opacidad */
+}
+
+.clothe-card:hover .trash {
+    visibility: visible;
+    opacity: 1; /* Totalmente visible al hacer hover */
 }
