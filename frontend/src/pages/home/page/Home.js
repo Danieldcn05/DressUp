@@ -53,7 +53,7 @@ export const Home = () => {
             let data = await response.json();
 
             
-            
+            console.log(data);
 
             setOutfits(data);
             GuardarEnStorage("outfits", data);
