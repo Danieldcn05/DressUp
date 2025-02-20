@@ -5,6 +5,9 @@
     border-radius: 10px;
     background-color: var(--grey);
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .trash {
@@ -22,4 +25,8 @@
 .clothe-card:hover .trash {
     visibility: visible;
     opacity: 1; /* Totalmente visible al hacer hover */
+}
+
+.clothe-img{
+    height: 50%;
 }
