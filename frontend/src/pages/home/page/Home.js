@@ -21,6 +21,7 @@ export const Home = () => {
     const [outfits, setOutfits] = useState([]);
     const [clothes, setClothes] = useState([]);
 
+    const [avatarUrl, setAvatarUrl] = useState('');
 
     // Fetch de nombre de usuario
     const getUserInfo = async () => {
@@ -30,6 +31,7 @@ export const Home = () => {
             setName(data.name);
             setIdUser(data.id);
             GuardarEnStorage("idUser", data.id);
+            setAvatarUrl(data.avatar);
 
         } catch (error) {
             console.error("Error fetching name:", error);
@@ -127,11 +129,17 @@ export const Home = () => {
     return (
         <div className='home'>
             <header>
-                <div className='user'>
+            <div className='user'>
+                {avatarUrl ? (
+                    <img src={avatarUrl} alt="User Avatar" className='userAvatar' />
+                ) : (
                     <FaUser className='userIcon' />
-                    <h1>{name}</h1>
-                    <NavLink to="/calendar"><FaCalendar className='calendarIcon' /></NavLink>
-                </div>
+                )}
+            <h1>{name}</h1>
+            <NavLink to="/calendar">
+                <FaCalendar className='calendarIcon' />
+            </NavLink>
+            </div>
                 <div className='info'>
                     <p className={showClothes ? 'selected' : ''} onClick={() => setShowClothes(true)}>{clothes.length} Prendas</p>
                     <p className={!showClothes ? 'selected' : ''} onClick={() => setShowClothes(false)}>{outfits.length} Outfits</p>
