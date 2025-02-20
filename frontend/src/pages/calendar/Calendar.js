@@ -5,11 +5,13 @@ import { NavLink } from 'react-router-dom';
 import OutfitList from './outfitList/OutfitList';
 import { fetcher } from '../fetcher/fetcher.js';
 import { IoAddOutline } from "react-icons/io5";
+import CalendarOutfitModal from './calendar_outfit_modal/CalendarOutfitModal';
 
 
 export const Calendar = () => {
 
   const [key, setKey] = useState(0);
+  const [selectedOutfitId, setSelectedOutfitId] = useState(null);
 
   const reloadComponent = () => {
 
@@ -37,6 +39,7 @@ export const Calendar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [dates, setDates] = useState([]);
+  const [isOutfitModalOpen, setIsOutfitModalOpen] = useState(false); // Estado para el modal de outfit
 
 
   // Fetch de outfits
@@ -93,6 +96,19 @@ export const Calendar = () => {
     setSelectedDate(null);
   };
 
+  const openOutfitModal = (date) => {
+    const outfit = dates.find(dateObj => dateObj.date === date);
+    setSelectedDate(date);
+    setSelectedOutfitId(outfit ? outfit.id : null); // Establece el ID del outfit seleccionado
+    setIsOutfitModalOpen(true);
+  };
+
+  const closeOutfitModal = () => {
+    setIsOutfitModalOpen(false);
+    setSelectedDate(null);
+    setSelectedOutfitId(null); 
+  };
+
   const mes = monthData[currentMonth].name;
   const days = monthData[currentMonth].days;
 
@@ -114,7 +130,9 @@ export const Calendar = () => {
             <li>
               <time dateTime={`${currentYear}-${currentMonth + 1}-${i + 1}`}>{i + 1}</time>
               {dates.some(date => date.date === `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`)
-                ? <div className="has-outfit">{dates.find(date => date.date === `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`).outfit}</div>
+                ? <div className="has-outfit" onClick={() => openOutfitModal(`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`)}>
+                    {dates.find(date => date.date === `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`).outfit}
+                  </div>
                 : <IoAddOutline className='add-outfit-icon' onClick={() => openModal(i + 1)} />}
 
             </li>
@@ -128,7 +146,14 @@ export const Calendar = () => {
           onClose={closeModal}
           selectedDate={selectedDate}
           date={`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(selectedDate.split(' ')[0]).padStart(2, '0')}`}
+        />
+      )}
 
+      {isOutfitModalOpen && (
+        <CalendarOutfitModal
+          isOpen={isOutfitModalOpen}
+          onClose={closeOutfitModal}
+          id={selectedOutfitId}
         />
       )}
     </div>

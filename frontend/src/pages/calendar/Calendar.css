@@ -172,6 +172,13 @@
 	height: 100%;
 	border-radius: 10px;
 	background: var(--grey);
+	cursor: pointer;
+}
+
+.has-outfit:hover {
+	
+	scale: 1.1;
+	transition: all 0.3s;
 }
 
 .close-cross{
@@ -181,4 +188,10 @@
 	font-size: 3rem;
 	cursor: pointer;
 	color: #EF233C;
+}
+
+.modal-content{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
