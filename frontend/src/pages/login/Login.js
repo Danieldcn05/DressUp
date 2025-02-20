@@ -76,7 +76,7 @@ export function Login() {
   return (
     <div className="login-page">
       <div className="login-container">
-        <h2 className="login-title">Sign in to your account</h2>
+        <h2 className="login-title">Inicia sesión</h2>
 
         {showNotification && (
           <Notification
@@ -101,7 +101,7 @@ export function Login() {
           </div>
 
           <div className="input-field">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Contraseña</label>
             <input
               type="password"
               id="password"
@@ -113,9 +113,9 @@ export function Login() {
             />
           </div>
 
-          <button className="login-button" type="submit">Sign in</button>
+          <button className="login-button" type="submit">Iniciar sesión</button>
         </form>
-        <Link to="/register" className="register-link">Register now</Link>
+        <Link to="/register" className="register-link">Registrate ahora</Link>
       </div>
     </div>
   );

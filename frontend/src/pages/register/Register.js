@@ -32,7 +32,6 @@ export const Register = () => {
     }));
   };
 
-  // Manejar la subida manual de un archivo de imagen
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -43,7 +42,6 @@ export const Register = () => {
     }
   };
 
-  // Convertir la URL del avatar a un archivo real y almacenarlo en el estado
   const handleAvatarSelect = async (avatarUrl) => {
     try {
       const response = await fetch(avatarUrl);
@@ -71,7 +69,7 @@ export const Register = () => {
     form.append("name", formData.name);
     form.append("email", formData.email);
     form.append("password", formData.password);
-    form.append("picture", formData.picture); // Siempre es un archivo ahora
+    form.append("picture", formData.picture); 
 
     try {
       const response = await fetch('http://localhost:8000/users/register/', {
@@ -98,13 +96,13 @@ export const Register = () => {
     <div className="register-page">
       <div className="form-container">
         <div className="register-container">
-          <h2 className="register-title">Create a new account</h2>
+          <h2 className="register-title">Crear una cuenta</h2>
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="input-field">
-              <label htmlFor="name">Full Name</label>
+              <label htmlFor="name">Nombre</label>
               <input 
                 type="text" 
                 id="name" 
@@ -128,7 +126,7 @@ export const Register = () => {
             </div>
 
             <div className="input-field">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Contraseña</label>
               <input 
                 type="password" 
                 id="password" 
@@ -140,7 +138,7 @@ export const Register = () => {
             </div>
 
             <div className="input-field">
-              <label htmlFor="confirmPassword">Confirm Password</label>
+              <label htmlFor="confirmPassword">Confirma contraseña</label>
               <input 
                 type="password" 
                 id="confirmPassword" 
@@ -152,7 +150,7 @@ export const Register = () => {
             </div>
 
             <div className="input-field">
-              <label>Choose an Avatar</label>
+              <label>Elije un avatar</label>
               <div className="avatar-selection">
                 {avatarOptions.map((avatar, index) => (
                   <div 
@@ -179,10 +177,10 @@ export const Register = () => {
               />
             </div>
 
-            <button className="register-button" type="submit">Register</button>
+            <button className="register-button" type="submit">Registrar</button>
           </form>
 
-          <Link to="/login" className="login-link">Already a member? Log in</Link>
+          <Link to="/login" className="login-link">Ya eres miembro? Inicia sesión</Link>
         </div>
       </div>
     </div>

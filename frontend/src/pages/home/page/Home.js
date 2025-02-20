@@ -75,10 +75,6 @@ export const Home = () => {
     }, [idUser]);
 
 
-
-
-
-    // Fetch de prendas
     const fetchClothes = async () => {
         try {
             const response = await fetcher("clothes/", "GET");
@@ -143,7 +139,6 @@ export const Home = () => {
                         ))}
                     </div>
                 }
-
 
             </section>
             <div className='add'>
