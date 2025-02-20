@@ -51,6 +51,10 @@ export const Home = () => {
                 throw new Error("Error al obtener los outfits");
             }
             let data = await response.json();
+
+            
+            
+
             setOutfits(data);
             GuardarEnStorage("outfits", data);
         } catch (error) {
