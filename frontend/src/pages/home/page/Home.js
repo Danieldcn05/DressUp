@@ -68,7 +68,6 @@ export const Home = () => {
         }
     }, [idUser]);
 
-
     const fetchClothes = async () => {
         localStorage.removeItem("clothes");
         try {
@@ -83,7 +82,7 @@ export const Home = () => {
         } catch (error) {
             console.error("Error al obtener las prendas:", error);
         }
-    }
+    };
 
     useEffect(() => {
         fetchClothes();
@@ -101,6 +100,11 @@ export const Home = () => {
             console.error("Error al obtener las prendas:", error);
         }
         const clothesToFilter = JSON.parse(localStorage.getItem("clothes"));
+
+        if (selectedTags.length === 0) {
+            setClothes(clothesToFilter);
+            return;
+        }
 
         const filteredClothes = clothesToFilter.filter((clothe) =>
             clothe.tags.some((tag) => selectedTags.includes(tag))
@@ -178,7 +182,6 @@ export const Home = () => {
                         ))}
                     </div>
                 )}
-
             </section>
             <div className="add">
                 {!showClothes ? (
