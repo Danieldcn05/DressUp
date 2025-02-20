@@ -9,6 +9,7 @@ import './Home.css';
 import '../../modal/Modal.css';
 import { fetcher } from '../../fetcher/fetcher.js';
 import { Searcher } from '../searcher/Searcher';
+import { GuardarEnStorage } from '../utils/guardarEnStorage.js';
 
 export const Home = () => {
     const [showClothes, setShowClothes] = useState(true);
@@ -28,6 +29,7 @@ export const Home = () => {
             const data = await response.json();
             setName(data.name);
             setIdUser(data.id);
+            GuardarEnStorage("idUser", data.id);
 
         } catch (error) {
             console.error("Error fetching name:", error);
@@ -53,6 +55,7 @@ export const Home = () => {
             
             console.log(data);
             setOutfits(data);
+            GuardarEnStorage("outfits", data);
         } catch (error) {
             console.error("Error al obtener los outfits:", error);
         }
@@ -86,6 +89,7 @@ export const Home = () => {
             data = data.filter(clothe => clothe.user === idUser);
             console.log(data); // Verifica la respuesta del servidor
             setClothes(data);
+            GuardarEnStorage("clothes", data);
         } catch (error) {
             console.error("Error al obtener las prendas:", error);
         }

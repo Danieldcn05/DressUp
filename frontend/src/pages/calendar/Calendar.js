@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Calendar.css';
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
+import OutfitList from './outfitList/OutfitList';
+import { fetcher } from '../fetcher/fetcher.js';
+import { IoAddOutline } from "react-icons/io5";
+
 
 export const Calendar = () => {
+
+  const [key, setKey] = useState(0);
+
+  const reloadComponent = () => {
+
+    setKey(prevKey => prevKey + 1);
+  };
+
   const monthData = [
     { name: "Enero", days: 31 },
     { name: "Febrero", days: 28 },
@@ -23,6 +34,38 @@ export const Calendar = () => {
   const d = new Date();
   const [currentMonth, setCurrentMonth] = useState(d.getMonth());
   const [currentYear, setCurrentYear] = useState(d.getFullYear());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [dates, setDates] = useState([]);
+
+
+  // Fetch de outfits
+  const fetchOutfitDates = async () => {
+    try {
+      const response = await fetcher("outfit_planner/", "GET");
+      if (!response.ok) {
+        throw new Error("Error al obtener los outfits");
+      }
+      let data = await response.json();
+
+      const idUser = parseInt(localStorage.getItem("idUser"));
+
+      //Filtra los outfits del usuario por id ya que no funciona lo otro
+      data = data.filter(date => date.user === idUser);
+
+      console.log(data);
+      setDates(data);
+
+
+    } catch (error) {
+      console.error("Error al obtener los outfits:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOutfitDates();
+  }, [key]);
+
 
   const handlePreviousMonth = () => {
     if (currentMonth === 0) {
@@ -42,11 +85,24 @@ export const Calendar = () => {
     }
   };
 
+  const openModal = (day) => {
+    setSelectedDate(`${day} de ${monthData[currentMonth].name} ${currentYear}`);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = async () => {
+    await fetchOutfitDates(); // Espera a que fetchOutfitDates termine
+    reloadComponent(); // Luego recarga el componente
+
+    setIsModalOpen(false);
+    setSelectedDate(null);
+  };
+
   const mes = monthData[currentMonth].name;
   const days = monthData[currentMonth].days;
 
   return (
-    <div className="calendar-container">
+    <div key={key} className="calendar-container">
       <NavLink to="/home" className="back-link">
         <IoIosArrowBack className='back' />
       </NavLink>
@@ -59,13 +115,27 @@ export const Calendar = () => {
 
       <ul className='calendar-grid'>
         {Array.from({ length: days }, (_, i) => (
-          <li key={i + 1}><time dateTime={`${currentYear}-${currentMonth + 1}-${i + 1}`}>{i + 1}</time></li>
+          <React.Fragment key={i + 1}>
+            <li>
+              <time dateTime={`${currentYear}-${currentMonth + 1}-${i + 1}`}>{i + 1}</time>
+              {dates.some(date => date.date === `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`)
+                ? <div className="has-outfit">{dates.find(date => date.date === `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`).outfit}</div>
+                : <IoAddOutline className='add-outfit-icon' onClick={() => openModal(i + 1)} />}
+
+            </li>
+          </React.Fragment>
         ))}
       </ul>
 
-      <div className="calendar-navigation">
+      {isModalOpen && (
+        <OutfitList
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          selectedDate={selectedDate}
+          date={`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(selectedDate.split(' ')[0]).padStart(2, '0')}`}
 
-      </div>
+        />
+      )}
     </div>
   );
 };
