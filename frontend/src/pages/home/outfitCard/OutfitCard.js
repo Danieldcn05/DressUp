@@ -12,6 +12,7 @@ export const OutfitCard = ({ outfit, fetchOutfits }) => {
     return (
         <div className='outfit-card'>
             <h3>{outfit.id}</h3>
+            
             <IoTrash className='trash' onClick={deleteOutfits}/>
         </div>
     )

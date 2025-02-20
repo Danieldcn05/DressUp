@@ -13,7 +13,7 @@ export const ClotheCard = ({ clothe, fetchClothes }) => {
 
   return (
     <div className='clothe-card'>
-      <h3>{clothe.name}</h3>
+      <img src={clothe.img} className='clothe-img'></img>
       <IoTrash className='trash' onClick={deleteClothe}/>
     </div >
   );
