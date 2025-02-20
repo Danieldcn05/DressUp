@@ -31,12 +31,7 @@ export const Home = () => {
             setName(data.name);
             setIdUser(data.id);
             GuardarEnStorage("idUser", data.id);
-<<<<<<< HEAD
             setAvatarUrl(data.avatar);
-=======
-            setAvatarUrl(data.picture);
-
->>>>>>> 58e6aea76696ef892bbd2564ab68be220b60604b
         } catch (error) {
             console.error("Error fetching name:", error);
         }
