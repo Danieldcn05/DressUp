@@ -1,4 +1,5 @@
 import { fetcher } from '../../fetcher/fetcher.js';
+import { IoCloseOutline } from "react-icons/io5";
 
 const OutfitList = ({ isOpen, onClose, selectedDate, date }) => {
     if (!isOpen) return null;
@@ -25,6 +26,7 @@ const OutfitList = ({ isOpen, onClose, selectedDate, date }) => {
     return (
         <div className="outfit-list-overlay">
             <div className="outfit-list-content">
+                < IoCloseOutline className='close-cross' onClick={onClose}/>
                 <h2>Añadir outfit al {selectedDate}</h2>
                 <div className="outfit-list">
                     {outfits.map(outfit => (
@@ -35,7 +37,7 @@ const OutfitList = ({ isOpen, onClose, selectedDate, date }) => {
                     ))}
 
                 </div>
-                <button onClick={onClose}>Cerrar</button>
+               
             </div>
         </div>
     );

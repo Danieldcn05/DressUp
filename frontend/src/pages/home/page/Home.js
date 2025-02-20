@@ -87,6 +87,7 @@ export const Home = () => {
                 throw new Error("Error al obtener las prendas");
             }
             let data = await response.json();
+            console.log("Data de prendas", data);
             
             data = data.filter(clothe => clothe.user === idUser);
             console.log(data); // Verifica la respuesta del servidor

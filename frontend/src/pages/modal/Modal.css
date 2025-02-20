@@ -13,10 +13,11 @@
   
   .modal-content {
     background: white;
-    padding: 20px;
+    padding: 2rem;
     border-radius: 10px;
-    width: 350px;
+    width: 30rem;
     text-align: center;
+    position: relative;
   }
   
   .dropzone {
@@ -79,4 +80,11 @@
   }
 
   
-  
+  .close-cross-modal{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 3rem;
+    cursor: pointer;
+    color: #EF233C;
+  }

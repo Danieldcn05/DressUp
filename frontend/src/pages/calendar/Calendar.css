@@ -114,6 +114,7 @@
 	overflow: auto;
 	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 	text-align: center;
+	position: relative;
 }
 
 /* Estilo para la barra de desplazamiento */
@@ -149,6 +150,7 @@
 	color: white;
 	border-radius: 5px;
 	cursor: pointer;
+	
 }
 
 .outfit-list-content button:hover {
@@ -175,4 +177,13 @@
 	height: 100%;
 	border-radius: 10px;
 	background: var(--grey);
+}
+
+.close-cross{
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	font-size: 3rem;
+	cursor: pointer;
+	color: #EF233C;
 }

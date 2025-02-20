@@ -8,13 +8,12 @@ from user.mixins import idUserFilterMixin
 
 
 class OutfitPlannerList(idUserFilterMixin, generics.ListCreateAPIView):
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = OutfitPlanner.objects.all()
     serializer_class = OutfitPlannerSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset
         return self.filter_by_id_user(queryset)
 
 

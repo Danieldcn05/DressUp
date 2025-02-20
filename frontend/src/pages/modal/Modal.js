@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useDropzone } from 'react-dropzone';
 import './Modal.css';
 import { fetcher } from '../fetcher/fetcher';
+import { IoCloseOutline } from "react-icons/io5";
 
 export const Modal = ({ setIsModalOpen, fetchClothes }) => {
 
@@ -133,8 +134,8 @@ export const Modal = ({ setIsModalOpen, fetchClothes }) => {
             </ul>
           </div>
         </div>
-        <button className="close-btn" onClick={() => setIsModalOpen(false)}>Cerrar</button>
         <button className="add-btn" onClick={handleAddClothe}>Añadir</button>
+        < IoCloseOutline className='close-cross-modal' onClick={() => setIsModalOpen(false)}/>
       </div>
     </div>
   );
