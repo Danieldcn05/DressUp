@@ -66,8 +66,10 @@ export const Register = () => {
     // Verifica que 'picture' sea un archivo y lo agrega
     if (formData.picture) {
       if (formData.picture instanceof File) {
+        console.log(formData.picture)
         form.append("picture", formData.picture); // Si es un archivo, lo agregamos
       } else {
+        console.log(formData.picture)
         form.append("picture_url", formData.picture); // Si es una URL, la enviamos como `picture_url`
       }
     }
