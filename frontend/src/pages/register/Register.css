@@ -3,11 +3,11 @@
 /* Contenedor principal del Register */
 
 .register-page{
-
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
 
   .form-container{
     width: 100%;
@@ -83,5 +83,29 @@
     text-decoration: none;
     transform: scale(1.1, 1.1);
   }
+
+  .avatar-selection {
+    display: flex;
+    flex-wrap: wrap; /* Esto permite que los elementos se envuelvan en varias líneas */
+    justify-content: flex-start;
+    gap: 10px; /* Espacio entre los avatares */
+  }
   
-}
+  .avatar-selection div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .avatar-image {
+    border-radius: 50%;
+    transition: transform 0.2s ease, border 0.2s ease; /* Animación suave para la selección */
+    border: 2px solid transparent; /* Define un borde por defecto, que no es visible */
+  }
+  
+  .avatar-image.selected {
+    transform: scale(1.1); /* Aumenta ligeramente el avatar seleccionado */
+    border: 2px solid #4caf50; /* Borde de color verde al seleccionar */
+  }
+  
+  
