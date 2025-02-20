@@ -48,12 +48,7 @@ export const Calendar = () => {
       }
       let data = await response.json();
 
-      const idUser = parseInt(localStorage.getItem("idUser"));
-
-      //Filtra los outfits del usuario por id ya que no funciona lo otro
-      data = data.filter(date => date.user === idUser);
-
-      console.log(data);
+ 
       setDates(data);
 
 

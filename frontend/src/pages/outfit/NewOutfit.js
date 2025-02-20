@@ -34,10 +34,8 @@ export const NewOutfit = () => {
     fetcher("clothes", "GET")
       .then(response => response.json())
       .then(async data => {
-        const userId = await getId();
-        const filteredClothes = data.filter(item => item.user === userId);
-        setUserClothes(filteredClothes);
-        console.log(filteredClothes);
+        setUserClothes(data);
+        
       });
   }, []);
 

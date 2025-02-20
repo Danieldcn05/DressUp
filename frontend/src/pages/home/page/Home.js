@@ -52,10 +52,9 @@ export const Home = () => {
             }
             let data = await response.json();
 
-            //Filtra los outfits del usuario por id ya que no funciona lo otro
-            data = data.filter(outfit => outfit.user === idUser);
             
-            console.log(data);
+            
+
             setOutfits(data);
             GuardarEnStorage("outfits", data);
         } catch (error) {
@@ -87,10 +86,7 @@ export const Home = () => {
                 throw new Error("Error al obtener las prendas");
             }
             let data = await response.json();
-            console.log("Data de prendas", data);
             
-            data = data.filter(clothe => clothe.user === idUser);
-            console.log(data); // Verifica la respuesta del servidor
             setClothes(data);
             GuardarEnStorage("clothes", data);
         } catch (error) {
@@ -119,11 +115,6 @@ export const Home = () => {
         { value: "formal", label: "Formal" },
         { value: "beach", label: "Beach" }
     ];
-
-
-
-
-
 
 
 
