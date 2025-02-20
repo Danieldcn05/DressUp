@@ -1,5 +1,6 @@
 import { fetcher } from '../../fetcher/fetcher.js';
 import { IoCloseOutline } from "react-icons/io5";
+import { OutfitCard } from '../../home/outfitCard/OutfitCard.js';
 
 const OutfitList = ({ isOpen, onClose, selectedDate, date }) => {
     if (!isOpen) return null;
@@ -30,14 +31,16 @@ const OutfitList = ({ isOpen, onClose, selectedDate, date }) => {
                 <h2>Añadir outfit al {selectedDate}</h2>
                 <div className="outfit-list">
                     {outfits.map(outfit => (
-                        <div key={outfit.id} className="outfit-list-card" onClick={() => addOutfitToDate(outfit.id)} >
-                            <h3>Id:{outfit.id}</h3>
-
+                        <div key={outfit.id} onClick={() => addOutfitToDate(outfit.id)}>
+                            <OutfitCard  outfit={outfit}  />
                         </div>
+                        
                     ))}
 
+                    
+
                 </div>
-               
+        
             </div>
         </div>
     );

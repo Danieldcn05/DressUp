@@ -79,17 +79,18 @@ export const NewOutfit = () => {
 
 
   const randomizeOutfit = () => {
-    const categories = ["Parte de arriba", "Parte de abajo", "Zapatillas", "Complemento"];
-    const newSelectedItems = {};
-
-    categories.forEach(category => {
-
-      const randomItem = userClothes[Math.floor(Math.random() * userClothes.length)];
-      newSelectedItems[category] = randomItem.id;
-
+    const randomItem = (filter) => {
+      const filteredItems = userClothes.filter(item => item.tags.includes(filter));
+      const randomIndex = Math.floor(Math.random() * filteredItems.length);
+      return filteredItems[randomIndex]?.id || null;
+    };
+  
+    setSelectedItems({
+      "Parte de arriba": randomItem(1),
+      "Parte de abajo": randomItem(2),
+      "Zapatillas": randomItem(3),
+      "Complemento": randomItem(4)
     });
-
-    setSelectedItems(newSelectedItems);
   };
 
 
@@ -101,11 +102,11 @@ export const NewOutfit = () => {
       <div className="carousel-cont">
         {userClothes.length > 0 ? (
           <>
-            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Parte de arriba")} />
-            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Parte de abajo")} />
-            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Zapatillas")} />
-            <Carousel items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Complemento")} />
-          </>
+          <Carousel filter={1} items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Parte de arriba")} selectedItemId={selectedItems["Parte de arriba"]} />
+          <Carousel filter={2} items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Parte de abajo")} selectedItemId={selectedItems["Parte de abajo"]} />
+          <Carousel filter={3} items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Zapatillas")} selectedItemId={selectedItems["Zapatillas"]} />
+          <Carousel filter={4} items={userClothes} onItemSelected={(id) => handleItemSelected(id, "Complemento")} selectedItemId={selectedItems["Complemento"]} />
+        </>
         ) : (
           <div>Loading...</div>
         )}

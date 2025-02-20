@@ -157,12 +157,7 @@
 	background-color: #0056b3;
 }
 
-.outfit-list-card {
-	background-color: var(--grey);
-	height: 20rem;
-	width: 15rem;
-	margin: 1rem;
-}
+
 
 .outfit-list {
 	display: flex;
