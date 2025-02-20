@@ -64,8 +64,12 @@ export const Register = () => {
     form.append("password", formData.password);
 
     // Verifica que 'picture' sea un archivo y lo agrega
-    if (formData.picture && formData.picture instanceof File) {
-      form.append("picture", formData.picture); // Solo agregar si es un archivo
+    if (formData.picture) {
+      if (formData.picture instanceof File) {
+        form.append("picture", formData.picture); // Si es un archivo, lo agregamos
+      } else {
+        form.append("picture_url", formData.picture); // Si es una URL, la enviamos como `picture_url`
+      }
     }
 
     try {

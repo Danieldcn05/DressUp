@@ -115,8 +115,6 @@ export function Login() {
 
           <button className="login-button" type="submit">Sign in</button>
         </form>
-
-        <a href="#" className="forgot-password-link">Forgot password?</a>
         <Link to="/register" className="register-link">Register now</Link>
       </div>
     </div>
